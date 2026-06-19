@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNTHETIC PULSE - Magazine Mei 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            900: '#4c1d95',
+                        },
+                        accent: {
+                            400: '#e879f9',
+                            500: '#d946ef',
+                            600: '#c026d3',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'ui-serif', 'serif'],
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        /* Reading Progress Bar Animation */
+        #progress-bar {
+            transition: width 0.1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 min-h-screen flex flex-col">
+
+    <div class="fixed top-0 left-0 w-full h-1 bg-slate-200 dark:bg-slate-800 z-50">
+        <div id="progress-bar" class="h-full bg-gradient-to-r from-primary-600 to-accent-500 w-0"></div>
+    </div>
+
+    <header class="sticky top-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 z-40 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchSection('editorial')">
+                <span class="p-2 bg-gradient-to-br from-primary-600 to-accent-500 rounded-lg text-white shadow-lg shadow-primary-500/30">
+                    <i data-lucide="activity" class="w-6 h-6"></i>
+                </span>
+                <div>
+                    <span class="text-xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-500 font-display">ETIKA DIGITAL DAN MEDIA SOSIAL</span>
+                    <span class="block text-[9px] uppercase tracking-widest text-slate-400 font-semibold">SYNTHETIC PULSE • Edisi 02</span>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center relative w-64">
+                <input type="text" id="search-input" placeholder="Cari artikel..." 
+                       class="w-full pl-9 pr-4 py-1.5 text-sm bg-slate-100 dark:bg-slate-800 border-none rounded-full focus:ring-2 focus:ring-primary-600 outline-none transition-all"
+                       oninput="handleSearch()">
+                <i data-lucide="search" class="w-4 h-4 absolute left-3 text-slate-400"></i>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleDarkMode()" class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all" title="Ubah Tema">
+                    <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
+                </button>
+                <button onclick="toggleBookmarksModal()" class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all relative" title="Artikel Tersimpan">
+                    <i data-lucide="bookmark" class="w-5 h-5"></i>
+                    <span id="bookmark-count" class="hidden absolute top-1 right-1 bg-accent-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                </button>
+                <button onclick="toggleSidebar()" class="lg:hidden p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex gap-8 relative">
+        
+        <aside id="sidebar" class="hidden lg:block w-72 shrink-0 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pr-4 space-y-6">
+            <div>
+                <h3 class="text-xs uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 mb-3 px-3">Pembuka</h3>
+                <nav class="space-y-1">
+                    <button onclick="switchSection('editorial')" id="btn-editorial" class="nav-btn active flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300">
+                        <span>Editorial Pandangan</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div>
+                <h3 class="text-xs uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 mb-3 px-3">Artikel Utama</h3>
+                <nav class="space-y-1">
+                    <button onclick="switchSection('privasi')" id="btn-privasi" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <span>Paradoks Privasi Di Era Eksposur Maksimal</span>
+                    </button>
+                    <button onclick="switchSection('cancel')" id="btn-cancel" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <span>Budaya "Cancel Culture": Keadilan Sosial atau Penghakiman Massa?</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div>
+                <h3 class="text-xs uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 mb-3 px-3">Opini Akademik</h3>
+                <nav class="space-y-1">
+                    <button onclick="switchSection('cyber')" id="btn-cyber" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <span>Normalisasi Cyber Bullying Berkedok Kritik: Perspektif Sistem Teknologi Informasi</span>
+                    </button>
+                    <button onclick="switchSection('pribadi')" id="btn-pribadi" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <span>Komodifikasi Privasi: Ketika Data Pribadi Generasi Z Menjadi Komoditas Global</span>
+                    </button>
+                    <button onclick="switchSection('medsos')" id="btn-medsos" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <span>Media Sosial Dan Krisis Kesopanan Digital Di Kalangan Pelajar</span>
+                    </button>
+                    <button onclick="switchSection('bijak')" id="btn-bijak" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <span>Bijak Bermedia Sosial: Tantangan Etika Digital di Tengah Kebebasan Berpendapat</span>
+                    </button>
+                    <button onclick="switchSection('penting')" id="btn-penting" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <span>Pentingnya Literasi Digital: Untuk Membangun Etika Komunikasi Online</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div>
+                <h3 class="text-xs uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 mb-3 px-3">Sorotan & Rubrik</h3>
+                <nav class="space-y-1">
+                    <button onclick="switchSection('feature')" id="btn-feature" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <span>Menenun Asa di Antara Baris Kode: Sisi Manusia di Balik Layar Kaca</span>
+                    </button>
+                    <button onclick="switchSection('beyond')" id="btn-beyond" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <span>BEYOND THE PROMPT: Menjadi Arsitek di Balik Revolusi AI</span>
+                    </button>
+                </nav>
+            </div>
+            <a href="index.html" class="nav-btn flex items-center justify-center w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                <span>Homepage</span>
+            </a>
+        </aside>
+
+        <main class="flex-1 min-w-0 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 sm:p-10 transition-colors duration-200">
+            <div id="search-results-container" class="hidden mb-8 p-4 bg-primary-50 dark:bg-slate-800 rounded-xl border border-primary-100 dark:border-slate-700">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-sm font-semibold text-primary-900 dark:text-primary-100 flex items-center gap-2">
+                        <i data-lucide="search" class="w-4 h-4 text-primary-600"></i> Hasil Pencarian
+                    </span>
+                    <button onclick="clearSearch()" class="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">Tutup</button>
+                </div>
+                <div id="search-results" class="space-y-2"></div>
+            </div>
+
+            <article id="section-editorial" class="magazine-section space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-primary-600 dark:text-accent-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>Editorial Pandangan</span>
+                        <span>•</span>
+                        <span>Oleh Syifa Nurul</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">EDITORIAL</h1>
+                    <div class="h-1 w-20 bg-gradient-to-r from-primary-600 to-accent-500 rounded"></div>
+                    <p class="text-slate-500 italic text-sm">Etika Digital dan Media Sosial</p>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-base sm:text-lg leading-relaxed space-y-6 font-serif text-slate-700 dark:text-slate-300">
+                    <p class="first-letter:text-5xl first-letter:font-bold first-letter:text-primary-600 first-letter:float-left first-letter:mr-3 first-letter:font-display">Pernahkah Anda menghitung berapa kali dalam sehari jempol Anda melakukan scrolling tanpa arah di layar ponsel?  Atau, seberapa sering suasana hati Anda mendadak bergeser dari tenang menjadi cemas hanya karena melihat potongan kehidupan orang lain di linimasa? Kita hidup di era dimana jarak antar manusia telah terkikis hingga titik nol. Media sosial menjanjikan konektivitas tanpa batas, sebuah ruang komunal tempat semua orang memiliki panggung yang sama untuk bersuara. Namun, hari ini kita menyaksikan sisi lain dari janji manis tersebut. Ruang digital kita tidak lagi sekadar menjadi tempat bertukar kabar, melainkan telah menjelma menjadi medan pertempuran psikologis, panggung penghakiman massal, dan pasar komodifikasi data. Edisi majalah digital kali ini mengangkat satu tema krusial yang kerap kita abaikan di balik ricuhnya notifikasi: Etika Digital dan Media Sosial.</p>
+
+                    <p>Sebagai masyarakat akademis dan konsumen informasi, kita perlu melihat media sosial melampaui fungsinya sebagai alat komunikasi. Secara struktural, platform digital hari ini beroperasi atas dasar Attention Economy (Ekonomi Perhatian). Di dunia digital, perhatian Anda adalah mata uang utama. Jika Anda tidak membayar untuk produknya, maka Andalah produknya. Algoritma dirancang dengan cermat untuk memanen emosi terkuat manusia: rasa takut tertinggal (FOMO), kemarahan, dan pencarian validasi sosial yang tiada habisnya. Akibatnya, etika sering kali dikorbankan demi mengejar angka keterlibatan (engagement). Kita melihat bagaimana fenomena sharenting- di mana orang tua mengorbankan privasi anak demi konten makin marak. Ada pula cancel culture yang brutal tanpa proses tabayun, hingga penyebaran manipulasi gambar berbasis kecerdasan buatan (deepfake). Semua itu dianggap lumrah sejauh mendatangkan klik dan metrik yang menguntungkan.</p>
+
+                    <p>Dampak paling nyata dari rapuhnya etika digital adalah lahirnya echo chamber, sebuah gema digital yang mengurung kita hanya dengan opini-opini yang sejalan. Media sosial perlahan membuat kita lupa cara berdialog dengan mereka yang berbeda pandangan. Debat sehat berganti menjadi pembunuhan karakter (character assassination), dan kritik akademis bergeser menjadi ujaran kebencian di kolom komentar. Ketika jempol bergerak lebih cepat daripada pikiran, etika komunikasi yang menghargai martabat manusia di balik akun anonim akan runtuh seketika. Kita bertransformasi menjadi masyarakat yang reaktif, bukan lagi masyarakat yang reflektif.</p>
+
+                    <p>Menggugat etika digital bukan berarti kita harus berbondong-bondong melakukan digital detox total lalu mengisolasi diri dari teknologi. Itu adalah langkah utopis yang naif di tengah dunia yang bergerak serbadigital. Tantangan kita hari ini adalah bagaimana menjadi warga digital (digital citizen) yang berdaulat, kritis, dan tetap humanis. Etika digital tidak boleh berhenti sebagai jargon akademis atau sekadar aturan hukum yang represif. Ia harus mewujud sebagai kesadaran baru dalam diri setiap pengguna. Kesadaran ini dimulai dari hal paling sederhana: memvalidasi informasi sebelum membagikannya, menghormati batasan privasi diri sendiri serta orang lain, dan menyadari sepenuhnya bahwa di balik layar gawai yang dingin, ada manusia nyata yang bisa terluka oleh ketikan kita. </p>
+
+                    <p>Melalui rangkaian artikel opini akademis, analisis tren, dan esai kritis yang kami kurasi dalam edisi ini, kami mengajak Anda semua untuk berhenti sejenak dari hiruk-pikuk linimasa. Mari kita bedah bersama, sejauh mana teknologi telah membentuk perilaku kita, dan bagaimana kita bisa merebut kembali kendali atas kemanusiaan kita di ruang siber yang makin bising ini. Selamat membaca, selamat berefleksi, dan mari waras bersama di ruang digital.</p>
+                </div>
+            </article>
+
+            <article id="section-privasi" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-blue-600 dark:text-blue-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>Artikel Utama</span>
+                        <span>•</span>
+                        <span>Oleh Syifa Nurul</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Paradoks Privasi Di Era Eksposur Maksimal</h1>
+                    <div class="h-1 w-20 bg-blue-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <p>Kita hidup di zaman di mana "ada" berarti "terlihat". Keberadaan manusia modern seolah tervalidasi melalui setiap unggahan, story, dan cuitan yang dilemparkan ke ruang siber. Namun, di balik keriuhan interaksi digital ini, muncul sebuah fenomena kontradiktif yang dikenal sebagai Paradoks Privasi. Kita mengaku sangat menghargai privasi, namun dengan sukarela menyerahkan data paling intim kepada algoritma demi kenyamanan atau sekadar pengakuan sosial.</p>
+                    
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Ruang Publik yang Terdistorsi </h3>
+                    <p>Dahulu, batas antara ruang privat dan publik sangatlah jelas. Rumah adalah benteng privasi, sementara jalanan adalah panggung publik. Kini, media sosial meruntuhkan tembok tersebut. Saat seseorang mengunggah foto makan malamnya atau curahan hati tentang pekerjaannya, ia sedang membawa ruang privat ke etalase global. Paradoks ini bermula dari kebutuhan psikologis manusia akan koneksi. Di satu sisi, kita merasa cemas akan pengawasan data oleh korporasi besar atau ancaman cyberstalking. Namun, disisi lain, ketakutan akan ketinggalan tren (Fear of Missing Out) mendorong kita untuk terus mengekspos diri. Kita terjebak dalam siklus di mana privasi dianggap sebagai harga mati, tetapi diskon harga atau fitur filter terbaru dianggap lebih berharga daripada kerahasiaan data pribadi.</p>
+                    
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Komodifikasi Diri dan Algoritma </h3>
+                    <p>Dalam ekosistem media sosial, data adalah mata uang. Setiap "Like", durasi menonton video, hingga lokasi GPS yang kita bagikan adalah bahan bakar bagi kecerdasan buatan untuk membangun profil psikografis kita. Masalah etika muncul ketika kita tidak lagi menjadi subjek yang memegang kendali, melainkan objek yang dikomodifikasi. Banyak pengguna tidak menyadari bahwa jejak digital bersifat permanen. Apa yang kita unggah hari ini dengan penuh emosi, bisa menjadi bumerang di masa depan saat proses rekrutmen kerja atau penilaian sosial. Inilah inti dari eksposur maksimal: kita merasa bebas berekspresi, padahal kita sedang membangun penjara digital kita sendiri. Transparansi yang berlebihan seringkali mengikis kedalaman karakter manusia, mengubah identitas menjadi sekadar deretan konten yang dikurasi demi algoritma.</p>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Etika Digital: Tanggung Jawab Siapa?</h3>
+                    <p>Menyalahkan teknologi sepenuhnya tentu bukan langkah yang bijak. Teknologi bersifat netral; cara kita menggunakannya yang sarat akan nilai etis. Etika digital menuntut kesadaran kritis dari setiap individu. Privasi bukan sekadar "menyembunyikan sesuatu", melainkan hak untuk memiliki kendali atas informasi diri sendiri. Ada tiga pilar dalam menghadapi paradoks privasi ini:</p>
+                    
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li><strong>Literasi Data:</strong> Memahami bahwa setiap klik memiliki konsekuensi. Pengguna harus mulai membaca (atau setidaknya memahami garis besar) kebijakan privasi dan tidak asal memberikan izin akses pada aplikasi pihak ketiga.</li>
+                        <li><strong>Batasan Digital (Digital Boundaries):</strong> Menentukan apa yang layak dikonsumsi publik dan apa yang harus tetap menjadi milik pribadi. Tidak semua momen membutuhkan saksi digital.</li>
+                        <li><strong>Empati Siber:</strong> Etika tidak hanya tentang melindungi diri sendiri, tapi juga menghargai privasi orang lain. Mengunggah foto orang lain tanpa izin atau menyebarkan informasi sensitif (doxing) adalah pelanggaran etika berat yang sering dianggap remeh.</li>
+                    </ol>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Menuju Keseimbangan Baru</h3>
+                    <p>Mencapai privasi total di era internet saat ini hampir mustahil, kecuali jika kita memilih untuk mengasingkan diri sepenuhnya dari dunia modern. Namun, tujuannya bukan isolasi, melainkan kesadaran. Kita perlu beralih dari pola pikir "ekspos dulu, sesal kemudian" menjadi "pikir dulu, unggah kemudian". Privasi harus dipandang sebagai bentuk perawatan diri (self-care). Dengan membatasi paparan, kita sebenarnya sedang melindungi kesehatan mental kita dari tekanan validasi eksternal yang tak ada habisnya. Kita harus berani mengatakan "tidak" pada tuntutan platform yang meminta kita untuk selalu transparan.</p>
+                    
+                    <p>Paradoks privasi di era eksposur maksimal adalah tantangan moral terbesar bagi generasi digital. Kita berada di persimpangan jalan antara kemudahan teknologi dan kedaulatan diri. Etika digital bukan hadir untuk mengekang kreativitas atau memutus silaturahmi, melainkan sebagai kompas agar kita tidak tersesat dalam rimba informasi yang tanpa batas. Pada akhirnya, harta paling berharga di abad ke-21 bukanlah jumlah followers atau tingkat engagement, melainkan kemampuan untuk tetap memiliki ruang pribadi yang tidak tersentuh oleh publik. Mari kita menjadi pengguna yang cerdas: hadir di dunia digital tanpa harus kehilangan jati diri dan kendali atas privasi kita sendiri. Karena di dunia yang serba terbuka, misteri adalah sebuah kemewahan.</p>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <h4 class="text-sm font-semibold uppercase text-slate-400 mb-2">Sumber Acuan</h4>
+                    <p class="text-xs text-slate-500">Norberg, P. A., Horne, D. R., & Horne, D. A. (2007). "The Privacy Paradox: Personal Information Disclosure Intentions versus Behaviors." Journal of Consumer Affairs. |
+                        Zuboff, S. (2019). "The Age of Surveillance Capitalism: The Fight for a Human Future at the New Frontier of Power." PublicAffairs. |
+                        Christl, W. (2017). "Corporate Surveillance in Everyday Life." Cracked Labs - Institute for Critical Digital Culture. |
+                        Floridi, L. (2014). "The Fourth Revolution: How the Infosphere is Reshaping Human Reality." Oxford University Press. |
+                        Krasnova, H., et al. (2010). "Online Social Networks: Why We Disclose." Journal of Information Technology. 
+                        </p>
+                </div>
+            </article>
+
+            <article id="section-cancel" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-fuchsia-600 dark:text-fuchsia-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>Artikel Utama</span>
+                        <span>•</span>
+                        <span>Oleh Mutiara Gita </span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">BUDAYA "CANCEL CULTURE": KEADILAN SOSIAL ATAU PENGHAKIMAN MASSA?</h1>
+                    <div class="h-1 w-20 bg-fuchsia-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <p>Dunia digital hari ini bukan sekadar ruang berbagi pesan, melainkan sebuah pengadilan raksasa tanpa palu hakim yang formal. Fenomena ini kita kenal sebagai cancel culture atau budaya pembatalan- sebuah praktik memutus dukungan (baik secara sosial maupun finansial) terhadap figur publik, instansi, atau individu setelah mereka melakukan atau mengatakan sesuatu yang dianggap menyinggung atau tidak dapat diterima secara moral. Pertanyaannya: Apakah ini mekanisme kendali sosial yang efektif untuk menegakkan keadilan, atau justru bentuk baru dari tirani digital yang haus akan penghakiman?</p>
+                    
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-fuchsia-700 dark:text-fuchsia-300">AKAR DAN EVOLUSI AKUNTABILITAS DIGITAL</h3>
+                    <p>Secara historis, boikot bukanlah barang baru. Namun, kecepatan internet mengubah skala boikot dari lokal menjadi global dalam hitungan jam. Menurut studi dari Pew Research Center, persepsi masyarakat terhadap cancel culture terbelah tajam. Sekitar 58% orang dewasa di Amerika Serikat melihat aksi ini sebagai cara untuk meminta pertanggungjawaban (akuntabilitas), sementara sisanya menganggapnya sebagai hukuman yang tidak adil. Di satu sisi, cancel culture memberikan suara kepada kelompok marginal yang selama ini tidak memiliki kekuatan untuk melawan figur-figur besar. Kampanye #MeToo adalah contoh nyata bagaimana "kekuatan massa" mampu meruntuhkan dominasi pelaku pelecehan seksual di industri film yang selama puluhan tahun tak tersentuh hukum formal. Dalam konteks ini, cancel culture berfungsi sebagai katarsis sosial dan instrumen koreksi terhadap sistem hukum yang sering kali lambat atau bias.</p>
+                    
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-fuchsia-700 dark:text-fuchsia-300">SISI GELAP: KETIKA JARI LEBIH CEPAT DARI LOGIKA</h3>
+                    <p>Namun, pedang ini bermata dua. Kritik utama terhadap budaya ini adalah hilangnya ruang untuk pertumbuhan dan pengampunan. Seseorang bisa saja "dibatalkan" karena cuitan sepuluh tahun lalu ketika mereka masih remaja, tanpa mempertimbangkan perubahan karakter mereka saat ini.</p>
+
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>Mentalitas Massa (Mob Mentality):</strong> Dalam psikologi sosial, fenomena ini sering dikaitkan dengan deindividuasi. Ketika berada dalam kelompok digital yang besar, individu cenderung kehilangan rasa tanggung jawab pribadi dan terjebak dalam emosi kolektif.</li>
+                        <li><strong>Ketiadaan Praduga Tak Bersalah:</strong> Di pengadilan media sosial, vonis dijatuhkan berdasarkan potongan video berdurasi 15 detik atau tangkapan layar tanpa konteks. Tidak ada ruang untuk pembelaan; sekali narasi negatif terbentuk, klarifikasi apa pun sering kali dianggap sebagai pembelaan diri yang manipulatif. </li>
+                        <li><strong>Dampak Psikologis yang Permanen:</strong> Bagi individu yang menjadi target, dampaknya bisa sangat menghancurkan. Bukan hanya kehilangan mata pencaharian, tetapi juga isolasi sosial total yang memicu depresi hingga pemikiran untuk mengakhiri hidup.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-fuchsia-700 dark:text-fuchsia-300">DAMPAK EKONOMI DAN STANDAR GANDA KORPORASI</h3>
+                    <p>Bagi perusahaan, cancel culture adalah mimpi buruk hubungan masyarakat (PR). Data dari Porter Novelli menunjukkan bahwa 38% konsumen menyatakan mereka akan berhenti membeli produk dari merek yang memiliki nilai-nilai yang bertentangan dengan mereka. Akibatnya, banyak perusahaan melakukan pemecatan atau pemutusan kontrak secara instan terhadap karyawan yang sedang viral demi menjaga citra saham, sering kali tanpa melakukan investigasi internal yang menyeluruh. Hal ini menciptakan iklim ketakutan yang disebut sebagai chilling effect. Orang-orang menjadi takut untuk menyuarakan pendapat yang tidak populer atau berdiskusi secara terbuka karena khawatir akan konsekuensi profesional yang fatal. Kebebasan berpendapat perlahan tergerus oleh standar moralitas yang dinamis dan terkadang tidak konsisten.</p>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-fuchsia-700 dark:text-fuchsia-300">MENUJU "COUNSEL CULTURE" DARIPADA "CANCEL CULTURE"</h3>
+                    <p>Untuk menjaga kesehatan demokrasi digital, kita perlu bergeser dari budaya mematikan karakter menuju budaya bimbingan atau "Counsel Culture". Menuntut akuntabilitas itu perlu, namun harus dilakukan dengan cara yang manusiawi. Berikut adalah beberapa parameter yang bisa kita pertimbangkan sebelum ikut menekan tombol "share" pada narasi penghakiman: </p>
+                    
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>Proporsionalitas:</strong> Apakah kesalahan yang dilakukan sebanding dengan hukuman sosial yang diterima?</li>
+                        <li><strong>Konteks dan Waktu:</strong> Apakah tindakan tersebut mencerminkan nilai-nilai orang itu saat ini, atau merupakan bagian dari masa lalu yang sudah ia perbaiki?</li>
+                        <li><strong>Ruang untuk Perubahan:</strong> Jika tujuannya adalah keadilan sosial, maka hasil akhirnya haruslah perbaikan perilaku, bukan sekadar kehancuran total seseorang.</li>
+                    </ul>
+
+                    <p>Cancel culture pada intinya adalah manifestasi dari rasa frustasi masyarakat terhadap ketidakadilan yang tersumbat di saluran formal. Ia bisa menjadi alat perjuangan yang hebat bagi mereka yang tak bersuara. Namun, jika dibiarkan tanpa empati dan nalar kritis, ia akan berubah menjadi monster yang melahap siapa saja termasuk mereka yang menginisiasinya. Keadilan sejati tidak ditemukan dalam kecepatan jempol memberikan komentar hujatan, melainkan dalam keberanian untuk mendengarkan, memverifikasi, dan memberikan ruang bagi manusia untuk belajar dari kesalahannya. Media sosial seharusnya menjadi tempat kita bertumbuh secara kolektif, bukan arena gladiator di mana satu kesalahan berarti "kematian" sosial selamanya.</p>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <h4 class="text-sm font-semibold uppercase text-slate-400 mb-2">Sumber Acuan</h4>
+                    <p class="text-xs text-slate-500">Pew Research Center (2021). "Americans and 'Cancel Culture': Context and Accountability." |
+                        Porter Novelli (2020). "The Purpose Priorities Report: How Consumers are Holding Brands Accountable." |
+                        Zimbardo, P. (2007). "The Lucifer Effect: Understanding How Good People Turn Evil." 
+                        </p>
+                </div>
+            </article>
+
+            <article id="section-cyber" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-blue-600 dark:text-blue-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>OPINI AKADEMIK</span>
+                        <span>•</span>
+                        <span>Oleh Syifa Nurul</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Normalisasi Cyber Bullying Berkedok Kritik: Perspektif Sistem Teknologi Informasi</h1>
+                    <div class="h-1 w-20 bg-blue-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <p>Perkembangan arsitektur internet global telah mengubah lanskap komunikasi publik secara radikal. Media sosial, yang awalnya dirancang sebagai ruang kolaboratif untuk mendekatkan jarak sosial, kini bertransformasi menjadi arena interaksi yang sarat akan polarisasi. Salah satu fenomena sosio religius dan kultural yang paling mengkhawatirkan di ruang siber saat ini adalah normalisasi perundungan siber (cyber bullying) yang dikamuflasekan sebagai tindakan "kritik". Melalui kacamata program studi Sistem Teknologi Informasi (STI), fenomena ini bukan sekadar degradasi moralitas pengguna, melainkan sebuah kegagalan sistemik dari interaksi antara desain arsitektur platform, algoritma rekomendasi, dan tata kelola etika digital (digital governance). Dari perspektif STI, kita harus membedakan secara tegas antara kritik substantif dan perundungan siber. Kritik melibatkan proses evaluasi objektif terhadap suatu gagasan atau tindakan. Sebaliknya, cyberbullying yang berkedok kritik adalah serangan personal yang agresif, berulang, dan ditujukan untuk menjatuhkan martabat korban. Normalisasi terjadi ketika antarmuka platform digital memfasilitasi akumulasi massa secara instan, mengubah perundungan menjadi perilaku kolektif yang dianggap wajar demi mencapai keadilan sosial semu (social justice warfare).</p>
+                    
+                    <p>Akar masalah ini terletak pada bagaimana sistem informasi modern dirancang dan dioptimalkan. Platform media sosial kontemporer beroperasi di bawah payung ekonomi atensi (attention economy). Algoritma rekomendasi berbasis kecerdasan buatan (AI) dilatih untuk memaksimalkan keterikatan pengguna (user engagement). Celakanya, metrik keterikatan tertinggi seringkali dipicu oleh konten yang memuat emosi negatif, kemarahan, dan kontroversi. Ketika sebuah akun mendapatkan gelombang hujatan, sistem informasi menginterpretasikannya sebagai "konten bernilai interaksi tinggi", lalu menyebarkannya ke lini masa yang lebih luas. Secara tidak langsung, arsitektur sistem informasi kita saat ini ikut mengamplifikasi dan memonetisasi perundungan siber dengan dalih kebebasan berpendapat dan kritik. Selain itu, fitur-fitur seperti anonimitas, kemudahan berbagi rekam jejak (retweet/repost), dan ketiadaan verifikasi identitas yang ketat menciptakan efek disinhibisi toksik (toxic disinhibition effect). Pengguna merasa aman menyerang orang lain karena sistem tidak memberikan konsekuensi sosial langsung di dunia nyata. Filter gelembung (filter bubbles) juga memperparah situasi dengan mengelompokkan pengguna ke dalam ruang gema (echo chambers), di mana narasi perundungan diperkuat secara kolektif oleh kelompoknya, sehingga mengaburkan batasan etis antara kritik yang membangun dan pembunuhan karakter. </p>
+                    
+                    <p>Untuk memutus rantai normalisasi ini, para akademisi dan praktisi Sistem Teknologi Informasi memiliki tanggung jawab besar untuk mendesain ulang interaksi manusia dan komputer (Human-Computer Interaction) yang lebih etis. Pendekatan Value-Sensitive Design (VSD) harus diintegrasikan dalam setiap siklus pengembangan perangkat lunak. Sistem tidak boleh hanya mengejar efisiensi dan profitabilitas, melainkan harus menyertakan nilai-nilai kemanusiaan dan mitigasi risiko sosial sejak tahap awal arsitektur basis data dan algoritma dibuat. Implementasi teknologi pemrosesan bahasa alami (Natural Language Processing) dan analisis sentimen tingkat lanjut harus dioptimalkan bukan untuk menyensor opini, melainkan untuk mendeteksi intensitas agresi, perundungan verbal, dan ujaran kebencian secara real-time. Lebih jauh lagi, sistem moderasi konten berbasis komunitas yang transparan perlu dikembangkan untuk membedakan kritik yang valid secara akademis atau profesional dengan agresi personal.</p>
+
+                    <p>Sebagai kesimpulan, normalisasi cyberbullying berkedok kritik adalah tantangan sosio-teknis yang kompleks. Penyelesaiannya tidak bisa hanya bertumpu pada imbauan moral, melainkan harus melibatkan intervensi struktural pada sistem informasi yang kita gunakan sehari-hari. Hanya dengan membangun ekosistem teknologi informasi yang berakar pada etika, transparansi algoritma, dan tanggung jawab desain, kita dapat mengembalikan esensi media sosial sebagai ruang publik digital yang sehat, aman, dan demokratis. </p>
+                    </div>
+            </article>
+            <article id="section-pribadi" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-blue-600 dark:text-blue-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>OPINI AKADEMIK</span>
+                        <span>•</span>
+                        <span>Oleh Mutiara Gita</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Komodifikasi Privasi: Ketika Data Pribadi Generasi Z Menjadi Komoditas Global</h1>
+                    <div class="h-1 w-20 bg-blue-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <p>Perkembangan teknologi digital telah mengubah cara manusia berinteraksi, bekerja, hingga membangun identitas sosial. Dalam konteks ini, privasi tidak lagi dipahami hanya sebagai hak individu yang harus dilindungi, melainkan telah berubah menjadi komoditas ekonomi bernilai tinggi. Generasi Z, yang tumbuh bersama internet dan media sosial, menjadi kelompok yang paling dekat dengan fenomena tersebut. Kehidupan mereka yang sangat terhubung dengan platform digital membuat data pribadi, kebiasaan, serta preferensi mereka terus diproduksi dan dikumpulkan setiap saat. Akibatnya, muncul kondisi paradoksal: Gen Z memiliki kesadaran tinggi terhadap ancaman keamanan digital, tetapi pada saat yang sama tetap bersedia membagikan data pribadi demi kenyamanan, hiburan, dan pengakuan sosial.</p>
+                    
+                    <p>Fenomena ini dikenal sebagai paradoks privasi. Secara umum, privasi dipahami sebagai kemampuan individu untuk mengontrol informasi tentang dirinya sendiri. Namun, dalam praktik kehidupan digital, batas tersebut menjadi semakin kabur. Laporan Ernst & Young (EY) menunjukkan bahwa sebagian besar Gen Z bersikap skeptis terhadap institusi besar, tetapi tetap bersedia memberikan data pribadi untuk memperoleh pengalaman digital yang lebih personal. Platform seperti TikTok, Instagram, dan X memanfaatkan pola perilaku pengguna melalui sistem algoritma yang dirancang untuk mempertahankan perhatian pengguna selama mungkin. Aktivitas sederhana seperti memberikan “Like”, menonton video, atau melakukan pencarian akan direkam dan diolah menjadi profil psikologis yang kemudian dimanfaatkan untuk kepentingan iklan digital.</p>
+                    
+                    <p>Shoshana Zuboff melalui konsep surveillance capitalism menjelaskan bahwa pengalaman manusia kini diperlakukan sebagai bahan baku ekonomi baru. Data perilaku pengguna dikumpulkan, dianalisis, lalu diubah menjadi prediksi mengenai tindakan konsumen di masa depan. Dalam sistem ini, data Gen Z menjadi aset yang sangat berharga karena kelompok ini dianggap mampu menentukan tren pasar sekaligus pola konsumsi global. Proses komodifikasi data berlangsung melalui beberapa tahap, mulai dari pengumpulan data menggunakan cookies, pelacakan lokasi, dan biometrik, kemudian dilanjutkan dengan analisis berbasis kecerdasan buatan untuk memprediksi preferensi pengguna. Setelah itu, platform digital akan menampilkan iklan atau konten tertentu yang dirancang untuk memengaruhi keputusan pembelian bahkan pandangan politik seseorang. </p>
+                    
+                    <p>Dampak dari komodifikasi privasi tidak hanya bersifat ekonomi, tetapi juga psikososial. Erving Goffman melalui konsep front stage dan back stage menjelaskan bahwa manusia membutuhkan ruang pribadi untuk mengekspresikan dirinya tanpa tekanan sosial. Akan tetapi, media sosial membuat batas antara ruang publik dan ruang privat semakin hilang. Gen Z sering kali terdorong untuk terus tampil di ruang digital demi mempertahankan eksistensi sosial mereka. Fenomena oversharing menjadi semakin umum karena identitas individu kini sering diukur berdasarkan validasi digital seperti jumlah pengikut, komentar, dan tingkat interaksi. Kondisi tersebut dapat memicu kecemasan, stres, hingga depresi karena individu merasa terus diawasi oleh algoritma maupun audiens daring.</p>
+
+                    <p>Menghadapi situasi tersebut, perlindungan privasi tidak cukup hanya bergantung pada kesadaran individu. Regulasi negara memiliki peran penting dalam mengontrol praktik pengumpulan dan pemanfaatan data pribadi oleh perusahaan teknologi. Di Indonesia, pengesahan Undang-Undang Pelindungan Data Pribadi (UU PDP) pada tahun 2022 menjadi langkah penting dalam memperkuat hak digital masyarakat. Namun, tantangan terbesar terletak pada implementasi dan penegakan hukum, terutama karena banyak perusahaan digital beroperasi secara lintas negara. Selain regulasi, peningkatan literasi digital juga menjadi kebutuhan mendesak. Generasi Z perlu memahami bahwa data pribadi memiliki nilai ekonomi tinggi sehingga pengguna internet harus lebih kritis terhadap cara kerja algoritma, keamanan data, serta pentingnya enkripsi dan kontrol privasi.</p>
+                    
+                    <p>Dengan demikian, komodifikasi privasi merupakan persoalan yang tidak hanya berkaitan dengan teknologi, tetapi juga menyangkut kebebasan dan martabat manusia. Ketika kehidupan pribadi terus diubah menjadi sumber keuntungan ekonomi, maka otonomi individu berada dalam posisi yang rentan. Oleh karena itu, privasi seharusnya dipandang kembali sebagai hak fundamental yang wajib dilindungi, bukan sekadar alat tukar demi kenyamanan digital sesaat.</p>
+                    </div>
+            </article>
+            <article id="section-medsos" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-blue-600 dark:text-blue-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>OPINI AKADEMIK</span>
+                        <span>•</span>
+                        <span>Oleh Addini Yasyfa</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Media Sosial Dan Krisis Kesopanan Digital Di Kalangan Pelajar</h1>
+                    <div class="h-1 w-20 bg-blue-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <p>Perkembangan media sosial di era digital telah membawa perubahan mendasar dalam cara generasi muda berkomunikasi dan berinteraksi. Platform seperti TikTok, Instagram, WhatsApp, X dan YouTube kini bukan sekadar sarana hiburan, melainkan telah menjadi ruang pembentukan norma sosial baru bagi kalangan pelajar. Di balik kemudahan akses dan kebebasan berekspresi yang ditawarkan, muncul fenomena yang kian mengkhawatirkan, yakni merosotnya kesopanan digital di kalangan pelajar. Krisis ini tidak bisa dianggap remeh, sebab dampaknya menyentuh aspek moral, sosial, bahkan hukum.</p>
+                    
+                    <p>Ironisnya, kemudahan teknologi yang seharusnya mendorong kemajuan justru sering menjadi jalan masuk bagi perilaku tidak beretika. Mulai dari penyebaran ujaran kebencian, hoaks, cyberbullying, hingga komentar kasar yang dianggap hal yang biasa, semua ini mencerminkan lemahnya internalisasi etika digital di kalangan pelajar. Riset menunjukkan bahwa komunikasi di media sosial sering kali didasarkan pada emosi sesaat tanpa proses verifikasi, sehingga validitasnya pun diragukan. Bahasa informal yang tidak terkontrol serta budaya berkomentar tanpa memikirkan dampaknya telah menggeser standar kesopanan yang semestinya dijaga.</p>
+                    
+                    <p>Masalah ini semakin parah dan fatal oleh beberapa faktor yang saling berkaitan. Pertama, lemahnya pengawasan keluarga akibat kesibukan orang tua menyebabkan pelajar mencari validasi diri di dunia maya tanpa bimbingan yang memadai. Kedua, rendahnya literasi digital membuat sebagian besar pelajar hanya menjadi pengguna pasif yang mudah terseret arus konten negatif tanpa kemampuan berpikir kritis. Ketiga, tidak adanya pendidikan etika digital yang terintegrasi dalam kurikulum membuat pelajar tidak memiliki panduan yang jelas tentang tanggung jawab moral dalam beraktivitas di dunia digital. Kondisi ini menghasilkan apa yang dikenal sebagai "krisis identitas digital", di mana siswa menciptakan citra ideal di media sosial yang sangat berbeda dari nilai-nilai asli mereka.</p>
+
+                    <p>Namun demikian, krisis ini bukanlah hal yang tidak bisa diatasi. Diperlukan pendekatan yang menyeluruh dan lintas disiplin untuk membangunkan kembali kesadaran etika digital pelajar. Sekolah harus menjadi pusat pembentukan karakter digital dengan mengintegrasikan pendidikan literasi dan etika digital ke dalam kurikulum secara konkret, bukan sekadar teori. Metode pembelajaran berbasis proyek, misalnya kampanye anti-hoaks di media sosial, dapat menjadi sarana efektif menanamkan nilai kejujuran dan tanggung jawab secara langsung. Orang tua pun perlu bertransformasi dari sekadar pengawas menjadi pendamping digital yang aktif, membangun dialog terbuka bersama anak tentang penggunaan teknologi yang bijak.</p>
+
+                    <p>Dalam konteks Indonesia, penguatan etika digital juga semestinya didasarkan pada nilai-nilai luhur Pancasila. Sila Kemanusiaan yang Adil dan Beradab, misalnya, mengajarkan pentingnya menghormati orang lain di ruang digital, menolak cyberbullying, dan tidak menyebarkan informasi yang menyesatkan. Nilai-nilai ini relevan dijadikan fondasi dalam membangun budaya digital yang sehat, terutama bagi pelajar yang sedang dalam masa pembentukan karakter. Dengan demikian, literasi digital bukan hanya soal kemampuan teknis mengoperasikan perangkat, melainkan juga soal membangun kesadaran moral dan tanggung jawab sosial di dunia maya.</p>
+
+                    <p>Sudah saatnya berbagai pihak, mulai dari pendidik, orang tua, pemerintah, hingga platform media sosial itu sendiri, berkolaborasi secara serius untuk membenahi ekosistem digital yang dihadapi pelajar setiap harinya. Dunia maya sejatinya adalah cerminan dari dunia nyata. Jika kita menginginkan generasi muda yang beradab dan berkarakter, maka keadaban itu harus pula ditumbuhkan di ruang-ruang digital tempat mereka tumbuh dan berkembang. Pelajar sebagai generasi penerus bangsa harus mampu memanfaatkan media sosial secara bijak, sehingga ruang digital dapat menjadi sarana edukatif, produktif, dan beradab, bukan tempat penurunan moral.</p>
+                </div>
+            </article>
+            <article id="section-bijak" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-blue-600 dark:text-blue-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>OPINI AKADEMIK</span>
+                        <span>•</span>
+                        <span>Oleh Nabilla Artamelia</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Bijak Bermedia Sosial: Tantangan Etika Digital di Tengah Kebebasan Berpendapat</h1>
+                    <div class="h-1 w-20 bg-blue-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <p>Media sosial telah mengubah cara manusia berkomunikasi, berbagi informasi, dan membentuk opini publik secara mendasar. Platform seperti Instagram, X (Twitter), dan TikTok kini bukan sekadar ruang hiburan, melainkan arena wacana sosial dan politik yang diperebutkan setiap saat. Bagi saya sebagai mahasiswa, kemudahan akses informasi ini seharusnya menjadi modal bagi pembentukan masyarakat yang lebih kritis dan terdidik. Namun, kenyataannya kebebasan berpendapat yang semakin luas belum diimbangi oleh kedewasaan etis yang sepadan. Inilah paradoks terbesar era digital: ketika ruang untuk bersuara terbuka lebar, batasan moral justru seringkali luruh. Semakin bebas suara beredar tanpa kendali etis, semakin besar pula potensi kerusakan sosial yang ditimbulkannya.</p>
+                    
+                    <p>Bukti nyata dari paradoks ini adalah merajalelanya misinformasi di ruang digital yang perlahan-lahan merusak rasionalitas publik. Berbagai penelitian menunjukkan bahwa berita bohong menyebar jauh lebih cepat dibandingkan berita faktual di platform digital. Fenomena ini bukan semata-mata akibat lemahnya regulasi hukum, melainkan akibat perilaku pengguna yang kerap meneruskan informasi tanpa memverifikasi kebenarannya terlebih dahulu. Misinformasi digital pada dasarnya adalah krisis etika yang bersumber dari kerentanan kognitif manusia, yakni kecenderungan untuk mengonfirmasi keyakinan yang sudah ada dalam diri kita atau yang lazim disebut confirmation bias. Di Indonesia, kondisi ini diperburuk oleh rendahnya budaya verifikasi, yang tercermin dari ribuan konten hoaks yang terdeteksi setiap tahunnya. Kebebasan berpendapat akhirnya disalahgunakan menjadi kebebasan untuk menyesatkan orang lain.</p>
+                    
+                    <p>Tak kalah serius, tantangan etika ini diperparah oleh fenomena echo chamber yang kian menguat akibat cara kerja algoritma platform digital. Algoritma tersebut dirancang untuk memaksimalkan keterlibatan pengguna dengan hanya menyajikan konten yang sejalan dengan preferensi dan keyakinan mereka. Akibatnya, kita tanpa sadar terjebak dalam gelembung informasi yang menyempitkan perspektif sekaligus memperparah polarisasi sosial. Kondisi ini sangat mengkhawatirkan bagi generasi muda, termasuk kalangan mahasiswa, yang menjadi kelompok paling rentan terhadap jebakan algoritma akibat literasi digital yang belum merata dan terbatasnya pengalaman dalam menyaring informasi secara kritis. Ironisnya, kebebasan yang kita agungkan sebenarnya telah didikte secara halus oleh sistem yang bekerja di balik layar.</p>
+
+                    <p>Oleh karena itu, saya berargumen bahwa bijak bermedia sosial bukan sekadar anjuran sopan santun normatif, melainkan sebuah kewajiban moral yang mendesak. Kebebasan mengekspresikan ide harus berjalan beriringan dengan tanggung jawab atas dampak konten yang diproduksi dan disebarkan. Literasi digital yang sejati bukan sekadar kemampuan teknis dalam mengoperasikan perangkat, melainkan kecakapan berpikir kritis sebelum menekan tombol share. Etika digital meniscayakan tiga tindakan konkret: verifikasi fakta secara ketat, komunikasi yang menghormati martabat orang lain tanpa serangan ad hominem, serta keterbukaan radikal terhadap perspektif yang berbeda dari sudut pandang kita.</p>
+
+                    <p>Solusi atas krisis ini tidak akan cukup jika hanya mengandalkan regulasi hukum yang bersifat top-down. Perubahan sejati harus diinisiasi dari transformasi karakter individu melalui pembentukan etika digital sebagai habitus baru dalam keseharian. Pemerintah pun telah merumuskan empat pilar kompetensi digital—kecakapan digital, etika digital, budaya digital, dan keamanan digital—sebagai kompas perilaku di ruang maya. Keempat pilar ini hanya akan bermakna apabila dihayati, bukan sekadar diketahui. Pada akhirnya, kebebasan berpendapat dan tanggung jawab etis bukanlah dua hal yang saling menegasikan, melainkan dua sisi mata uang dari kewarganegaraan digital yang matang. Sudah saatnya kita menggunakan kebebasan bersuara ini secara reflektif, demi merawat ekosistem informasi yang sehat, demokratis, dan bermartabat.</p>
+                </div>
+            </article>
+            <article id="section-penting" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-blue-600 dark:text-blue-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>OPINI AKADEMIK</span>
+                        <span>•</span>
+                        <span>Oleh Aisyah Wulandhari</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Pentingnya Literasi Digital: Untuk Membangun Etika Komunikasi Online</h1>
+                    <div class="h-1 w-20 bg-blue-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                        <p>Di era ketika informasi mengalir tanpa henti melalui layar-layar kecil di genggaman tangan, kemampuan seseorang untuk memilah, memahami, dan menyampaikan pesan secara bertanggung jawab menjadi kebutuhan yang tidak bisa lagi diabaikan. Literasi digital bukan sekadar kecakapan teknis dalam mengoperasikan perangkat atau aplikasi, melainkan sebuah kompetensi menyeluruh yang mencakup kemampuan berpikir kritis, bersikap etis, serta berkomunikasi secara sehat di ruang digital. Dalam konteks Indonesia yang kini masuk sebagai salah satu pengguna internet terbesar di dunia, urgensi membangun masyarakat digital yang tidak hanya cakap secara teknis tetapi juga berintegritas menjadi semakin mendesak.</p>
+                        
+                        <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Algoritma dan Jebakan Emosi</h3>
+                        <p>Realitas yang kita hadapi hari ini menunjukkan bahwa perkembangan teknologi tidak selalu berjalan seiring dengan kematangan perilaku penggunanya. Fenomena penyebaran informasi palsu, ujaran kebencian, perundungan siber, hingga pelanggaran privasi terjadi setiap hari di berbagai platform media sosial. Pelakunya bukan selalu individu dengan niat jahat, melainkan pengguna biasa yang tidak pernah diajarkan cara berpikir sebelum bersuara di ruang publik digital. Kondisi ini diperparah oleh desain platform yang secara algoritmik mengutamakan konten yang memancing emosi — konten yang mengundang kemarahan atau rasa takut lebih mudah tersebar karena lebih banyak diklik. Akibatnya, pengguna yang kurang melek digital tanpa sadar menjadi bagian dari rantai disinformasi yang merusak kepercayaan sosial secara luas.</p>
+                        
+                        <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Literasi Digital sebagai Fondasi Etika</h3>
+                        <p>Di sinilah literasi digital berperan sebagai fondasi pembentuk etika komunikasi online. Individu yang memiliki literasi digital tinggi cenderung lebih selektif dalam mengonsumsi informasi, lebih empatik dalam berinteraksi, dan lebih bertanggung jawab dalam memproduksi konten. Mereka memahami bahwa anonimitas di dunia maya bukan berarti kebebasan tanpa batas, melainkan justru tanggung jawab yang lebih besar karena minimnya pengawasan langsung. Kebebasan berekspresi di internet adalah hak, namun hak tersebut tidak pernah bisa dipisahkan dari kewajiban untuk menghormati martabat orang lain.</p>
+    
+                        <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Pendidikan, Bukan Sekadar Regulasi</h3>
+                        <p>Pembentukan etika komunikasi online tidak bisa terwujud hanya melalui regulasi semata. Perilaku etis yang sejati lahir dari kesadaran internal, bukan dari rasa takut terhadap sanksi. Intervensi pendidikan literasi digital yang terstruktur sejak jenjang sekolah dasar terbukti lebih efektif dalam membentuk perilaku digital yang bertanggung jawab dibandingkan pendekatan regulatif yang bersifat reaktif. Budaya "saring sebelum sharing" perlu diinternalisasi secara mendalam, bukan sekadar menjadi slogan yang cepat terlupakan. Orang tua pun perlu dilibatkan, karena anak-anak paling awal belajar tentang cara bersikap dari orang-orang terdekat mereka.</p>
+    
+                        <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Empati di Balik Layar</h3>
+                        <p>Dimensi empati dalam komunikasi digital juga tidak boleh diabaikan. Interaksi melalui layar kerap menghilangkan isyarat nonverbal yang dalam komunikasi tatap muka berfungsi mengatur nada percakapan. Tanpa ekspresi wajah atau intonasi suara, pesan yang dikirimkan bisa dengan mudah disalahartikan. Pengguna yang memiliki kesadaran emosional digital yang tinggi cenderung menghasilkan interaksi online yang lebih konstruktif dan minim konflik. Literasi digital yang komprehensif, karenanya, mencakup kemampuan berempati secara digital — memahami bahwa di balik setiap layar terdapat manusia dengan perasaan yang nyata.</p>
+    
+                        <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Tanggung Jawab Kita Bersama</h3>
+                        <p>Pada akhirnya, membangun etika komunikasi online adalah proyek kolektif yang membutuhkan keterlibatan semua pihak: pemerintah, institusi pendidikan, platform teknologi, keluarga, dan setiap individu pengguna internet. Literasi digital adalah kunci menuju ruang digital yang lebih beradab, inklusif, dan saling menghormati. Bukan sekadar soal kecakapan menggunakan teknologi, melainkan soal menjadi manusia yang bermartabat di tengah peradaban yang semakin terhubung secara digital. Karena cara kita berkomunikasi di dunia maya, pada akhirnya, adalah cerminan dari siapa kita sebenarnya di dunia nyata.</p>
+                    </div>
+            </article>
+            <article id="section-feature" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-rose-600 dark:text-rose-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>Feature Utama</span>
+                        <span>•</span>
+                        <span>Oleh Addini Yasyfa </span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Menenun Asa di Antara Baris Kode: Sisi Manusia di Balik Layar Kaca </h1>
+                    <div class="h-1 w-20 bg-rose-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6 font-serif text-lg leading-relaxed">
+                    <p class="first-letter:text-5xl first-letter:font-bold first-letter:text-rose-600 first-letter:float-left first-letter:mr-3 first-letter:font-display">Di sebuah sudut kafe yang riuh dengan suara mesin penggiling kopi, Andi (22) duduk terpaku menatap layar laptopnya. Jari-jemarinya menari gesit di atas keyboard, menyusun baris demi baris logika pemrograman yang rumit. Bagi banyak orang, deretan kode tersebut mungkin hanya tampak seperti naskah asing yang dingin. Namun bagi Andi, setiap simbol ; dan kurung kurawal {} adalah jembatan menuju masa depan yang lebih inklusif.</p>
+                    
+                    <p>Andi adalah satu dari ribuan mahasiswa teknologi yang kini tengah berjuang menyelesaikan proyek akhirnya: sebuah aplikasi pemantau kesehatan mental berbasis komunitas. Ketertarikannya pada dunia sistem informasi bukan sekadar mengejar karier di korporasi besar, melainkan sebuah misi pribadi untuk memanusiakan teknologi.</p>
+
+                    <blockquote class="border-l-4 border-rose-500 pl-4 py-2 italic my-6 bg-rose-50/30 dark:bg-slate-800/30 text-slate-800 dark:text-slate-200">
+                        "Seringkali kita lupa bahwa di balik kecanggihan algoritma, ada kebutuhan manusia yang ingin didengar. Teknologi seharusnya tidak membangun dinding, tapi membuka pintu bagi mereka yang selama ini terisolasi secara sosial," ujar Andi dengan nada optimis sembari menyesap kopi susunya.
+                    </blockquote>
+
+                    <p>Kisah Andi mencerminkan pergeseran besar dalam dunia teknologi saat ini. Fokus pengembangan tidak lagi hanya tertuju pada kecepatan prosesor atau kapasitas memori, melainkan pada bagaimana inovasi tersebut berdampak langsung pada kualitas hidup manusia—sebuah konsep yang sering disebut sebagai Human-Centered Design.</p>
+                   
+                    <p>Namun, tantangan yang dihadapi tidaklah mudah. Di tengah gempuran otomatisasi, menjaga "sentuhan manusia" menjadi pekerjaan rumah terbesar bagi para kreator digital muda. Mereka harus memastikan bahwa kemudahan yang ditawarkan teknologi tidak menggerus empati dan interaksi nyata di dunia fisik.</p>
+                   
+                    <p>Bagi Andi, perjuangannya baru saja dimulai. Di sela-sela tumpukan tugas dan revisi, ia tetap yakin bahwa baris kode yang ia tulis hari ini akan menjadi jawaban bagi seseorang di luar sana yang tengah mencari pertolongan. Sebuah bukti bahwa di jantung teknologi yang paling dingin sekalipun, masih ada detak jantung manusia yang peduli. </p>
+                </div>
+            </article>
+
+            <article id="section-beyond" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-rose-600 dark:text-rose-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>RUBRIK</span>
+                        <span>•</span>
+                        <span>Oleh Aisyah Wulandhari </span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">BEYOND THE PROMPT: Menjadi Arsitek di Balik Revolusi AI</h1>
+                    <div class="h-1 w-20 bg-rose-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6 font-serif text-lg leading-relaxed">
+                    <p class="first-letter:text-5xl first-letter:font-bold first-letter:text-rose-600 first-letter:float-left first-letter:mr-3 first-letter:font-display">Bagi masyarakat awam, AI mungkin terlihat seperti "sihir" yang bisa menjawab segala tanya dan menciptakan visual dalam sekejap. Namun, bagi kita di program studi Sistem Teknologi Informasi, AI adalah sekumpulan algoritma kompleks, struktur data masif, dan infrastruktur komputasi yang harus dikelola secara presisi. Di tengah debat "AI vs Human", mahasiswa STI memiliki tanggung jawab lebih dari sekadar menjadi pengguna; kita adalah para perancang ekosistem yang memastikan teknologi ini bekerja secara efisien, aman, dan manusiawi.</p>
+                    
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Membedah Infrastruktur: dari Big Data ke Intelegensi</h3>
+                    <p>Viralnya aplikasi bertenaga AI di bulan Mei 2026 ini memberikan pelajaran berharga bagi kita tentang pentingnya Manajemen Sumber Daya Data. Sebuah sistem AI hanya akan secerdas data yang melatihnya. Di sinilah kompetensi mahasiswa STI diuji:</p>
+                    
+                    <ol class="list-disc pl-5 space-y-2">
+                        <li>Pipeline Data & ETL: Bagaimana kita membangun jalur data yang bersih dari sumber yang berantakan? Tanpa proses Extract, Transform, Load (ETL) yang mumpuni, AI hanya akan menghasilkan output yang bias.</li>
+                        <li>Scalability: Saat sebuah aplikasi AI menjadi viral dan digunakan oleh jutaan orang dalam waktu bersamaan, mampukah arsitektur cloud yang kita bangun menahan beban tersebut? Mempelajari Cloud Computing bukan lagi pilihan, melainkan keharusan untuk menjaga sistem tetap up and running.</li>
+                    </ol>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Tata Kelola dan Etika: Menjamin Keamanan di Dunia yang Otomatis</h3>
+                    <p>Bulan April lalu kita melihat banyak isu mengenai pelanggaran privasi akibat integrasi AI yang ceroboh. Dalam kurikulum STI, kita belajar bahwa teknologi tidak boleh lepas dari Governance (Tata Kelola).  </p>
+                    
+                    <ol class="list-disc pl-5 space-y-2">
+                        <li>Keamanan Sistem Informasi: AI adalah pisau bermata dua. Ia bisa digunakan untuk mendeteksi malware, tapi juga bisa digunakan oleh hacker untuk membuat serangan phishing yang sempurna. Mahasiswa STI harus mampu merancang protokol keamanan yang proaktif terhadap ancaman berbasis AI.</li>
+                        <li>Audit Algoritma: Kita harus mulai belajar cara mengaudit AI. Apakah algoritma yang kita terapkan adil? Apakah ada data sensitif yang bocor ke dalam model publik? Tugas kita adalah memastikan bahwa efisiensi teknologi tidak mengorbankan privasi individu.</li>
+                    </ol>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300"> Interaksi Manusia dan Komputer (IMK): Merancang Masa Depan Kolaboratif</h3>
+                    <p>Salah satu sub-bab paling krusial dalam STI adalah Human-Computer Interaction (HCI). Judul cover majalah kita, "AI vs Human", sebenarnya adalah masalah desain. Jika AI terasa mengancam, mungkin itu karena sistemnya tidak dirancang untuk berkolaborasi dengan manusia secara harmonis. </p>
+                    
+                    <ol class="list-disc pl-5 space-y-2">
+                        <li>Augmented Intelligence: Fokus kita bukan lagi membuat mesin yang menggantikan manusia, melainkan teknologi yang memperkuat kemampuan manusia. Mahasiswa STI ditantang untuk merancang antarmuka (UI) dan pengalaman pengguna (UX) yang memungkinkan kolaborasi real-time antara intuisi manusia dan kecepatan mesin. </li>
+                    </ol>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">[STI Deep-Dive: Tools to Master in 2026] </h3>
+                    <p>Sebagai mahasiswa STI, pastikan kamu tidak hanya tahu namanya, tapi paham cara mengimplementasikannya: </p>
+                    
+                    <ol class="list-disc pl-5 space-y-2">
+                        <li>Vector Database (Pinecone, Weaviate, Milvus): Pelajari bagaimana basis data ini memungkinkan AI memiliki "ingatan jangka panjang" melalui proses Retrieval-Augmented Generation (RAG). Ini adalah topik panas untuk skripsi tahun ini!</li>
+                        <li>MLOps (Machine Learning Operations): Fokus pada bagaimana men-deploy dan memonitor model AI di lingkungan produksi secara konsisten. </li>
+                        <li>Privacy-Preserving AI: Eksplorasi teknologi seperti Federated Learning atau Differential Privacy untuk membangun sistem yang cerdas namun tetap menjaga kerahasiaan data pengguna.</li>
+                    </ol>
+
+                    <blockquote class="border-l-4 border-rose-500 pl-4 py-2 my-6 bg-rose-50/30 dark:bg-slate-800/30 text-slate-800 dark:text-slate-200">
+                        Dunia tidak butuh lebih banyak orang yang sekadar bisa mengetik prompt. Dunia butuh mereka yang paham cara membangun, mengamankan, dan mengoptimalkan sistem tersebut. AI mungkin bisa menulis ribuan baris kode, tapi ia tidak bisa memahami kebutuhan bisnis yang kompleks, ia tidak bisa berempati dengan pengguna yang kesulitan, dan ia tidak bisa merancang strategi TI jangka panjang. Itulah alasan mengapa peranmu di Sistem Teknologi Informasi jauh lebih relevan sekarang daripada sebelumnya. - Catatan Akhir Mahasiswa STI
+                    </blockquote>
+
+                    <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+                        <h4 class="text-sm font-semibold uppercase text-slate-400 mb-2">Sumber Acuan</h4>
+                        <p class="text-xs text-slate-500">Creative Industries Policy and Evidence Centre (Mei 2026) "A Global AI Agenda for the Cultural and Creative Industries" |
+                            Tech Policy Press (6 Mei 2026) "AI Won't Replace Human Creativity. It Will Unleash It." |
+                            Advanced Science (Maret–Mei 2026) "Human Creativity Still Surpasses 'Creative' Generative AI" |
+                            Envato (Mei 2026) "Beyond Adoption: The State of AI in Creative Work 2026" |
+                            Scientific Reports (Februari–Mei 2026) "Comparing and Contrasting Human and AI Creativity"                             
+                            </p>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <div id="bookmarks-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl p-6 shadow-xl border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold flex items-center gap-2">
+                    <i data-lucide="bookmark" class="w-5 h-5 text-primary-600"></i> Artikel Tersimpan
+                </h3>
+                <button onclick="toggleBookmarksModal()" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="bookmarks-list" class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                <p class="text-sm text-slate-400 dark:text-slate-500 italic text-center py-4">Belum ada artikel yang disimpan.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-sidebar" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex justify-end">
+        <div class="bg-white dark:bg-slate-900 w-80 h-full p-6 shadow-2xl flex flex-col justify-between border-l border-slate-200 dark:border-slate-800">
+            <div>
+                <div class="flex items-center justify-between mb-8">
+                    <span class="text-lg font-bold font-display text-primary-600">Navigasi Majalah</span>
+                    <button onclick="toggleSidebar()" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                <div class="relative mb-6">
+                    <input type="text" id="mobile-search-input" placeholder="Cari artikel..." 
+                           class="w-full pl-9 pr-4 py-2 text-sm bg-slate-100 dark:bg-slate-800 border-none rounded-full focus:ring-2 focus:ring-primary-600 outline-none"
+                           oninput="handleMobileSearch()">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+                </div>
+                <div class="space-y-6 overflow-y-auto max-h-[60vh] pr-2">
+                    <div>
+                        <h4 class="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-2">Pembuka</h4>
+                        <button onclick="switchSection('editorial'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                            <span>Editorial Pandangan</span>
+                        </button>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-2">Artikel Utama</h4>
+                        <div class="space-y-1">
+                            <button onclick="switchSection('privasi'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <span>Paradoks Privasi Di Era Eksposur Maksimal</span>
+                            </button>
+                            <button onclick="switchSection('cancel'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <span>Budaya "Cancel Culture": Keadilan Sosial atau Penghakiman Massa?</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-2">Opini Akademik</h4>
+                        <div class="space-y-1">
+                            <button onclick="switchSection('cyber'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <span>Normalisasi Cyber Bullying Berkedok Kritik: Perspektif Sistem Teknologi Informasi</span>
+                            </button>
+                            <button onclick="switchSection('pribadi'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <span>Komodifikasi Privasi: Ketika Data Pribadi Generasi Z Menjadi Komoditas Global</span>
+                            </button>
+                            <button onclick="switchSection('medsos'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <span>Media Sosial Dan Krisis Kesopanan Digital Di Kalangan Pelajar</span>
+                            </button>
+                            <button onclick="switchSection('bijak'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <span>Bijak Bermedia Sosial: Tantangan Etika Digital di Tengah Kebebasan Berpendapat</span>
+                            </button>
+                            <button onclick="switchSection('penting'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <span>Pentingnya Literasi Digital: Untuk Membangun Etika Komunikasi Online</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-2">Feature & Rubrik</h4>
+                        <div class="space-y-1">
+                            <button onclick="switchSection('feature'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <span> Menenun Asa di Antara Baris Kode: Sisi Manusia di Balik Layar Kaca</span>
+                            </button>
+                            <button onclick="switchSection('beyond'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <span>BEYOND THE PROMPT: Menjadi Arsitek di Balik Revolusi AI</span>
+                            </button>
+                        </div>
+                    </div>
+                    <a href="index.html" class="nav-btn flex items-center justify-center w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <span>Homepage</span>
+                    </a>
+                </div>
+            </div>
+            <div class="pt-4 border-t border-slate-200 dark:border-slate-800 text-center text-[10px] text-slate-400">
+                &copy; 2026 Synthetic Pulse Magazine • Semua hak dilindungi.
+            </div>
+        </div>
+    </div>
+
+    <button onclick="toggleSaveCurrentSection()" id="btn-save-floating" class="fixed bottom-6 right-6 p-4 bg-gradient-to-br from-primary-600 to-accent-500 text-white rounded-full shadow-lg shadow-primary-500/30 hover:scale-105 active:scale-95 transition-all z-30" title="Simpan Artikel Ini">
+        <i data-lucide="bookmark-plus" class="w-6 h-6"></i>
+    </button>
+
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-6 mt-12 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:flex sm:items-center sm:justify-between text-xs text-slate-400 dark:text-slate-500">
+            <span>&copy; 2026 SYNTHETIC PULSE Magazine.</span>
+            <span class="mt-2 sm:mt-0 block">Techno. Build. Play. • Edisi 02 (Mei 2026)</span>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Init & Lucide Icons loading
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            updateProgressBar();
+            loadBookmarks();
+            
+            // Listen to scroll events to handle progress bar
+            window.addEventListener('scroll', updateProgressBar);
+        });
+
+        // Dark Mode Logic
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            updateThemeIcon(true);
+        } else {
+            document.documentElement.classList.remove('dark');
+            updateThemeIcon(false);
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('theme-icon');
+            if (isDark) {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+
+        // Section Navigation Logic
+        let currentSection = 'editorial';
+        const sectionMapping = {
+            'editorial': { id: 'section-editorial', title: 'Editorial Pandangan' },
+            'privasi': { id: 'section-privasi', title: 'Paradoks Privasi Di Era Eksposur Maksimal' },
+            'cancel': { id: 'section-cancel', title: 'Budaya "Cancel Culture": Keadilan Sosial atau Penghakiman Massa?' },
+            'feature': { id: 'section-feature', title: 'Menenun Asa di Antara Baris Kode: Sisi Manusia di Balik Layar Kaca' },
+            'beyond': { id: 'section-beyond', title: 'BEYOND THE PROMPT: Menjadi Arsitek di Balik Revolusi AI' },
+            'cyber': { id: 'section-cyber', title: 'Normalisasi Cyber Bullying Berkedok Kritik: Perspektif Sistem Teknologi Informasi' },
+            'pribadi': { id: 'section-pribadi', title: 'Komodifikasi Privasi: Ketika Data Pribadi Generasi Z Menjadi Komoditas Global' },
+            'medsos': { id: 'section-medsos', title: 'Media Sosial Dan Krisis Kesopanan Digital Di Kalangan Pelajar' },
+            'bijak': { id: 'section-bijak', title: 'Bijak Bermedia Sosial: Tantangan Etika Digital di Tengah Kebebasan Berpendapat' },
+            'penting': { id: 'section-penting', title: 'Pentingnya Literasi Digital: Untuk Membangun Etika Komunikasi Online' }
+        };
+
+        function switchSection(targetSection) {
+            if (!sectionMapping[targetSection]) return;
+
+            // Hide all sections
+            document.querySelectorAll('.magazine-section').forEach(sec => {
+                sec.classList.add('hidden');
+            });
+
+            // Show target section
+            document.getElementById(sectionMapping[targetSection].id).classList.remove('hidden');
+
+            // Update active state in sidebar nav-btns (desktop)
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-primary-100', 'dark:bg-primary-900/30', 'text-primary-700', 'dark:text-primary-300');
+                btn.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+            });
+
+            const activeBtn = document.getElementById(`btn-${targetSection}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+                activeBtn.classList.add('bg-primary-100', 'dark:bg-primary-900/30', 'text-primary-700', 'dark:text-primary-300');
+            }
+
+            currentSection = targetSection;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(updateProgressBar, 300);
+
+            // Update Floating Save Icon status
+            updateFloatingSaveButton();
+        }
+
+        // Reading Progress Bar
+        function updateProgressBar() {
+            const currentSecEl = document.getElementById(sectionMapping[currentSection].id);
+            if (!currentSecEl) return;
+
+            const rect = currentSecEl.getBoundingClientRect();
+            const elementHeight = currentSecEl.scrollHeight;
+            const windowHeight = window.innerHeight;
+
+            // Calculate percentage read inside current visible section area
+            let percentage = 0;
+            if (rect.top < windowHeight) {
+                const scrolledIntoElement = windowHeight - rect.top;
+                percentage = Math.min((scrolledIntoElement / elementHeight) * 100, 100);
+            }
+            if (rect.bottom <= windowHeight) {
+                percentage = 100;
+            }
+            if (rect.top > windowHeight) {
+                percentage = 0;
+            }
+
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        // Mobile Sidebar Drawer
+        function toggleSidebar() {
+            const drawer = document.getElementById('mobile-sidebar');
+            drawer.classList.toggle('hidden');
+        }
+
+        // Search engine within active HTML content (In-Memory Search)
+        function handleSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const resultsContainer = document.getElementById('search-results-container');
+            const resultsDiv = document.getElementById('search-results');
+
+            if (query.length < 3) {
+                resultsContainer.classList.add('hidden');
+                return;
+            }
+
+            resultsDiv.innerHTML = '';
+            let count = 0;
+
+            for (const [key, section] of Object.entries(sectionMapping)) {
+                const element = document.getElementById(section.id);
+                const text = element.innerText.toLowerCase();
+
+                if (text.includes(query)) {
+                    count++;
+                    const previewText = element.innerText.replace(/\n/g, ' ').substring(0, 120) + '...';
+                    
+                    const item = document.createElement('div');
+                    item.className = 'p-3 bg-white dark:bg-slate-900 rounded-lg shadow-sm cursor-pointer hover:border-primary-500 border border-transparent transition-all';
+                    item.onclick = () => {
+                        switchSection(key);
+                        clearSearch();
+                    };
+                    item.innerHTML = `
+                        <h4 class="text-sm font-semibold text-slate-800 dark:text-slate-100">${section.title}</h4>
+                        <p class="text-xs text-slate-400 mt-1">${previewText}</p>
+                    `;
+                    resultsDiv.appendChild(item);
+                }
+            }
+
+            if (count > 0) {
+                resultsContainer.classList.remove('hidden');
+            } else {
+                resultsDiv.innerHTML = '<p class="text-xs text-slate-400 italic">Tidak ditemukan artikel yang sesuai.</p>';
+                resultsContainer.classList.remove('hidden');
+            }
+        }
+
+        function handleMobileSearch() {
+            const query = document.getElementById('mobile-search-input').value;
+            document.getElementById('search-input').value = query;
+            handleSearch();
+        }
+
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('mobile-search-input').value = '';
+            document.getElementById('search-results-container').classList.add('hidden');
+        }
+
+        // Bookmarks system logic via localStorage
+        let savedArticles = [];
+
+        function loadBookmarks() {
+            const saved = localStorage.getItem('syntheticpulse_bookmarks');
+            if (saved) {
+                savedArticles = JSON.parse(saved);
+            }
+            updateBookmarkBadge();
+            updateFloatingSaveButton();
+        }
+
+        function toggleBookmarksModal() {
+            const modal = document.getElementById('bookmarks-modal');
+            modal.classList.toggle('hidden');
+            renderBookmarksList();
+        }
+
+        function toggleSaveCurrentSection() {
+            const index = savedArticles.indexOf(currentSection);
+            if (index > -1) {
+                savedArticles.splice(index, 1);
+            } else {
+                savedArticles.push(currentSection);
+            }
+            localStorage.setItem('syntheticpulse_bookmarks', JSON.stringify(savedArticles));
+            updateBookmarkBadge();
+            updateFloatingSaveButton();
+            renderBookmarksList();
+        }
+
+        function toggleSaveCurrentSectionFromID(id) {
+            const index = savedArticles.indexOf(id);
+            if (index > -1) {
+                savedArticles.splice(index, 1);
+            } else {
+                savedArticles.push(id);
+            }
+            localStorage.setItem('syntheticpulse_bookmarks', JSON.stringify(savedArticles));
+            updateBookmarkBadge();
+            updateFloatingSaveButton();
+            renderBookmarksList();
+        }
+
+        function updateBookmarkBadge() {
+            const countEl = document.getElementById('bookmark-count');
+            countEl.innerText = savedArticles.length;
+            if (savedArticles.length > 0) {
+                countEl.classList.remove('hidden');
+            } else {
+                countEl.classList.add('hidden');
+            }
+        }
+
+        function updateFloatingSaveButton() {
+            const btn = document.getElementById('btn-save-floating');
+            if (savedArticles.includes(currentSection)) {
+                btn.innerHTML = '<i data-lucide="bookmark-check" class="w-6 h-6"></i>';
+                btn.classList.remove('from-primary-600', 'to-accent-500');
+                btn.classList.add('bg-emerald-600', 'dark:bg-emerald-500');
+            } else {
+                btn.innerHTML = '<i data-lucide="bookmark-plus" class="w-6 h-6"></i>';
+                btn.classList.remove('bg-emerald-600', 'dark:bg-emerald-500');
+                btn.classList.add('from-primary-600', 'to-accent-500');
+            }
+            lucide.createIcons();
+        }
+
+        function renderBookmarksList() {
+            const listContainer = document.getElementById('bookmarks-list');
+            listContainer.innerHTML = '';
+
+            if (savedArticles.length === 0) {
+                listContainer.innerHTML = '<p class="text-sm text-slate-400 dark:text-slate-500 italic text-center py-4">Belum ada artikel yang disimpan.</p>';
+                return;
+            }
+
+            savedArticles.forEach(key => {
+                const item = document.createElement('div');
+                item.className = 'p-3 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-between gap-4 border border-slate-100 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-800 transition-all';
+                item.innerHTML = `
+                    <div class="cursor-pointer flex-1 min-w-0" onclick="switchSection('${key}'); toggleBookmarksModal();">
+                        <h4 class="text-sm font-semibold truncate text-slate-800 dark:text-slate-100">${sectionMapping[key].title}</h4>
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Klik untuk membaca</span>
+                    </div>
+                    <button onclick="toggleSaveCurrentSectionFromID('${key}')" class="text-red-500 hover:text-red-700 shrink-0">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                `;
+                listContainer.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

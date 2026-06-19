@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNTHETIC PULSE - Beranda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            900: '#4c1d95',
+                        },
+                        accent: {
+                            400: '#e879f9',
+                            500: '#d946ef',
+                            600: '#c026d3',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'ui-serif', 'serif'],
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 min-h-screen flex flex-col">
+
+    <header class="sticky top-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 z-40 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="p-2 bg-gradient-to-br from-primary-600 to-accent-500 rounded-lg text-white shadow-lg shadow-primary-500/30">
+                    <i data-lucide="activity" class="w-6 h-6"></i>
+                </span>
+                <div>
+                    <span class="text-xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-500 font-display">SYNTHETIC PULSE</span>
+                    <span class="block text-[9px] uppercase tracking-widest text-slate-400 font-semibold">Pusat Publikasi Digital</span>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleDarkMode()" class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all" title="Ubah Tema">
+                    <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-6">
+            <h1 class="text-4xl sm:text-6xl font-bold font-display leading-tight">
+                Merekam Jejak <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-500">Realitas Digital</span>
+            </h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 font-serif">
+                Selamat datang di perpustakaan digital Synthetic Pulse. Eksplorasi kumpulan majalah yang membahas tren teknologi, gaya hidup, dinamika akademik, dan etika di era digital.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div class="group flex flex-col bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden relative">
+                <div class="absolute top-6 right-6 bg-accent-500 text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full shadow-lg z-10">
+                    Edisi Terbaru
+                </div>
+                
+                <div class="h-48 bg-gradient-to-br from-primary-100 to-accent-100 dark:from-primary-900/40 dark:to-accent-900/40 p-8 flex flex-col justify-center relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 opacity-10">
+                        <i data-lucide="shield-alert" class="w-64 h-64"></i>
+                    </div>
+                    <div class="relative z-10 space-y-2">
+                        <div class="flex items-center space-x-2 text-primary-700 dark:text-primary-400 font-semibold tracking-wider text-xs uppercase">
+                            <i data-lucide="calendar" class="w-4 h-4"></i>
+                            <span>Mei 2026</span>
+                            <span>•</span>
+                            <span>Edisi 02</span>
+                        </div>
+                        <h2 class="text-3xl font-bold font-display text-slate-900 dark:text-white leading-tight group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">Etika Digital dan Media Sosial</h2>
+                    </div>
+                </div>
+
+                <div class="p-8 flex-1 flex flex-col">
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-6 flex-1">
+                        Menyelami sisi gelap dan terang dari ruang siber. Edisi ini membedah paradoks privasi, fenomena cancel culture, hingga krisis kesopanan digital di kalangan pelajar.
+                    </p>
+                    
+                    <div class="space-y-3 mb-8">
+                        <h4 class="text-[10px] uppercase font-bold tracking-widest text-slate-400">Sorotan Artikel:</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-primary-500 mt-0.5 shrink-0"></i>
+                                <span>Paradoks Privasi Di Era Eksposur Maksimal</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-primary-500 mt-0.5 shrink-0"></i>
+                                <span>Budaya "Cancel Culture": Keadilan Sosial atau Penghakiman Massa?</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-primary-500 mt-0.5 shrink-0"></i>
+                                <span>Normalisasi Cyber Bullying Berkedok Kritik</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="majalah2.html" class="flex items-center justify-center w-full space-x-2 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-medium py-3 px-4 rounded-xl hover:opacity-90 transition-opacity">
+                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                        <span>Baca Edisi 02</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="group flex flex-col bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden relative">
+                
+                <div class="h-48 bg-slate-100 dark:bg-slate-800/80 p-8 flex flex-col justify-center relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 opacity-5 dark:opacity-10">
+                        <i data-lucide="cpu" class="w-64 h-64 text-slate-900 dark:text-white"></i>
+                    </div>
+                    <div class="relative z-10 space-y-2">
+                        <div class="flex items-center space-x-2 text-slate-600 dark:text-slate-400 font-semibold tracking-wider text-xs uppercase">
+                            <i data-lucide="calendar" class="w-4 h-4"></i>
+                            <span>April 2026</span>
+                            <span>•</span>
+                            <span>Edisi 01</span>
+                        </div>
+                        <h2 class="text-3xl font-bold font-display text-slate-900 dark:text-white leading-tight group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">Techno. Build. Play.</h2>
+                    </div>
+                </div>
+
+                <div class="p-8 flex-1 flex flex-col">
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-6 flex-1">
+                        Edisi perdana yang merangkum persimpangan antara pesatnya perkembangan teknologi dan kebutuhan manusia untuk tetap autentik dalam gaya hidup.
+                    </p>
+                    
+                    <div class="space-y-3 mb-8">
+                        <h4 class="text-[10px] uppercase font-bold tracking-widest text-slate-400">Sorotan Artikel:</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-slate-400 mt-0.5 shrink-0"></i>
+                                <span>Arsitektur Masa Depan: Tren STI 2026</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-slate-400 mt-0.5 shrink-0"></i>
+                                <span>The Power of You: Mendobrak Batas Fashion</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-slate-400 mt-0.5 shrink-0"></i>
+                                <span>Melampaui Kebisingan Digital (Slow Entertainment)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="majalah1.html" class="flex items-center justify-center w-full space-x-2 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium py-3 px-4 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                        <span>Baca Edisi 01</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 mt-auto transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 dark:text-slate-500">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="activity" class="w-4 h-4"></i>
+                <span class="font-bold tracking-wider font-display text-slate-600 dark:text-slate-300">SYNTHETIC PULSE</span>
+            </div>
+            <span>&copy; 2026 Synthetic Pulse Magazine • Semua hak dilindungi.</span>
+        </div>
+    </footer>
+
+    <script>
+        // Init Icons
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+
+        // Dark Mode Logic
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            updateThemeIcon(true);
+        } else {
+            document.documentElement.classList.remove('dark');
+            updateThemeIcon(false);
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('theme-icon');
+            if (isDark) {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

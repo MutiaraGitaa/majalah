@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNTHETIC PULSE - Magazine April 2026</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            900: '#4c1d95',
+                        },
+                        accent: {
+                            400: '#e879f9',
+                            500: '#d946ef',
+                            600: '#c026d3',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'ui-serif', 'serif'],
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        /* Reading Progress Bar Animation */
+        #progress-bar {
+            transition: width 0.1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 min-h-screen flex flex-col">
+
+    <!-- READING PROGRESS BAR -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-slate-200 dark:bg-slate-800 z-50">
+        <div id="progress-bar" class="h-full bg-gradient-to-r from-primary-600 to-accent-500 w-0"></div>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 z-40 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchSection('editorial')">
+                <span class="p-2 bg-gradient-to-br from-primary-600 to-accent-500 rounded-lg text-white shadow-lg shadow-primary-500/30">
+                    <i data-lucide="activity" class="w-6 h-6"></i>
+                </span>
+                <div>
+                    <span class="text-xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-500 font-display">TECHNO MANUFACTURE ENTERTAINMENT</span>
+                    <span class="block text-[9px] uppercase tracking-widest text-slate-400 font-semibold">SYNTHETIC PULSE • Edisi 1</span>
+                </div>
+            </div>
+
+            <!-- Search Bar (Desktop) -->
+            <div class="hidden md:flex items-center relative w-64">
+                <input type="text" id="search-input" placeholder="Cari artikel..." 
+                       class="w-full pl-9 pr-4 py-1.5 text-sm bg-slate-100 dark:bg-slate-800 border-none rounded-full focus:ring-2 focus:ring-primary-600 outline-none transition-all"
+                       oninput="handleSearch()">
+                <i data-lucide="search" class="w-4 h-4 absolute left-3 text-slate-400"></i>
+            </div>
+
+            <!-- Right Controls -->
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleDarkMode()" class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all" title="Ubah Tema">
+                    <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
+                </button>
+                <button onclick="toggleBookmarksModal()" class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all relative" title="Artikel Tersimpan">
+                    <i data-lucide="bookmark" class="w-5 h-5"></i>
+                    <span id="bookmark-count" class="hidden absolute top-1 right-1 bg-accent-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                </button>
+                <button onclick="toggleSidebar()" class="lg:hidden p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT WRAPPER -->
+    <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex gap-8 relative">
+        
+        <!-- SIDEBAR NAVIGATION (Desktop) -->
+        <aside id="sidebar" class="hidden lg:block w-72 shrink-0 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pr-4 space-y-6">
+            <div>
+                <h3 class="text-xs uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 mb-3 px-3">Pembuka</h3>
+                <nav class="space-y-1">
+                    <button onclick="switchSection('editorial')" id="btn-editorial" class="nav-btn active flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300">
+                        <i data-lucide="quote" class="w-4 h-4"></i>
+                        <span>Editorial Pandangan</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div>
+                <h3 class="text-xs uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 mb-3 px-3">Artikel Utama</h3>
+                <nav class="space-y-1">
+                    <button onclick="switchSection('tekno')" id="btn-tekno" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <i data-lucide="cpu" class="w-4 h-4"></i>
+                        <span>Arsitektur Masa Depan</span>
+                    </button>
+                    <button onclick="switchSection('gayahidup')" id="btn-gayahidup" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        <span>The Power of You</span>
+                    </button>
+                    <button onclick="switchSection('hiburan')" id="btn-hiburan" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <i data-lucide="coffee" class="w-4 h-4"></i>
+                        <span>Melampaui Kebisingan</span>
+                    </button>
+                    <button onclick="switchSection('kuliner')" id="btn-kuliner" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <i data-lucide="utensils" class="w-4 h-4"></i>
+                        <span>Seni Menikmati Rasa</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div>
+                <h3 class="text-xs uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 mb-3 px-3">Sorotan & Rubrik</h3>
+                <nav class="space-y-1">
+                    <button onclick="switchSection('feature')" id="btn-feature" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                        <span>Feature: Kehidupan Kampus</span>
+                    </button>
+                    <button onclick="switchSection('rubrik')" id="btn-rubrik" class="nav-btn flex items-center space-x-3 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <i data-lucide="bot" class="w-4 h-4"></i>
+                        <span>Cakrawala AI & ML</span>
+                    </button>
+                </nav>
+            </div>
+            <a href="index.html" class="nav-btn flex items-center justify-center w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                <span>Homepage</span>
+            </a>
+        </aside>
+
+        <!-- MAIN READER SPACE -->
+        <main class="flex-1 min-w-0 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 sm:p-10 transition-colors duration-200">
+            <!-- Search Results Display -->
+            <div id="search-results-container" class="hidden mb-8 p-4 bg-primary-50 dark:bg-slate-800 rounded-xl border border-primary-100 dark:border-slate-700">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-sm font-semibold text-primary-900 dark:text-primary-100 flex items-center gap-2">
+                        <i data-lucide="search" class="w-4 h-4 text-primary-600"></i> Hasil Pencarian
+                    </span>
+                    <button onclick="clearSearch()" class="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">Tutup</button>
+                </div>
+                <div id="search-results" class="space-y-2"></div>
+            </div>
+
+            <!-- SECTION: EDITORIAL -->
+            <article id="section-editorial" class="magazine-section space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-primary-600 dark:text-accent-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>Editorial Pandangan</span>
+                        <span>•</span>
+                        <span>Oleh Syifa Nurul</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Membingkai Realitas: Antara Inovasi dan Autentisitas</h1>
+                    <div class="h-1 w-20 bg-gradient-to-r from-primary-600 to-accent-500 rounded"></div>
+                    <p class="text-slate-500 italic text-sm">Techno. Build. Play. - Santai Dibaca, Dalam Maknanya</p>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-base sm:text-lg leading-relaxed space-y-6 font-serif text-slate-700 dark:text-slate-300">
+                    <p class="first-letter:text-5xl first-letter:font-bold first-letter:text-primary-600 first-letter:float-left first-letter:mr-3 first-letter:font-display">Memasuki tahun 2026, kita berada di persimpangan antara pesatnya perkembangan teknologi dan kebutuhan manusia untuk tetap autentik. Majalah ini hadir untuk merekam bagaimana tren teknologi, gaya hidup, dan dinamika akademik saling terhubung membentuk realitas saat ini.</p>
+                    <p>Laporan utama mengangkat <strong>Arsitektur Masa Depan</strong>, yang membahas pergeseran Sistem dan Teknologi Informasi menuju era <em>hyper-convergence</em>. Fokusnya tidak lagi sekadar kecanggihan, tetapi pada sistem <em>self-healing</em> serta kesadaran lingkungan melalui konsep <em>Green IT</em>.</p>
+                    <p>Semangat inovasi ini juga terlihat dalam <strong>The Power of You</strong>, di mana fashion 2026 menjadi media ekspresi diri yang berani dan mencerminkan identitas personal.</p>
+                    <p>Di sisi lain, tren <strong>Slow Entertainment</strong> hadir sebagai respons terhadap digital burnout, mengajak mahasiswa untuk melambat dan menemukan keseimbangan mental di tengah padatnya aktivitas. Hal ini juga tercermin dalam dunia kuliner yang mengutamakan kesehatan sekaligus pengalaman rasa yang interaktif.</p>
+                    <p>Pada bagian Feature, kami menyoroti <strong>Kehidupan Kampus</strong> dengan berbagai dinamika, mulai dari tekanan deadline hingga interaksi sosial, serta pentingnya sistem terintegrasi dalam organisasi. Sebagai penutup, rubrik <strong>AI & Machine Learning</strong> memberikan pemahaman bahwa AI dapat menjadi mitra untuk meningkatkan produktivitas manusia.</p>
+                </div>
+            </article>
+
+            <!-- SECTION: TEKNO -->
+            <article id="section-tekno" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-blue-600 dark:text-blue-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>Artikel Teknologi</span>
+                        <span>•</span>
+                        <span>Oleh Mutiara Gita Khaerani</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Arsitektur Masa Depan: Tren Sistem dan Teknologi Informasi yang Mendominasi 2026</h1>
+                    <div class="h-1 w-20 bg-blue-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <p class="text-lg font-medium italic border-l-4 border-blue-500 pl-4 py-1 bg-blue-50/50 dark:bg-slate-800/50">
+                        Perkembangan Sistem dan Teknologi Informasi (STI) di tahun 2026 menunjukkan perubahan yang cukup signifikan.
+                    </p>                    
+                    <p>Perkembangan Sistem dan Teknologi Informasi (STI) di tahun 2026 menunjukkan perubahan yang cukup signifikan. Jika sebelumnya sistem lebih sering dipahami sebagai gabungan antara perangkat keras dan perangkat lunak yang terpisah, kini konsep tersebut mulai bergeser. Kita memasuki era <strong>hyper-convergence</strong>, yaitu kondisi ketika sistem informasi menjadi lebih terintegrasi, adaptif, dan bahkan mampu melakukan perbaikan secara mandiri (<em>self-healing</em>).</p>
+                    
+                    <p>Seiring dengan perubahan tersebut, muncul sejumlah tren utama yang turut membentuk lanskap teknologi saat ini. Salah satunya adalah hadirnya sistem informasi otonom (<em>autonomous information systems</em>). Sistem ini dirancang untuk dapat mengelola dirinya sendiri tanpa ketergantungan penuh pada intervensi manusia. Dengan dukungan <em>machine learning</em> tingkat lanjut, sistem mampu mendeteksi gangguan seperti kegagalan server atau celah keamanan secara real-time, lalu langsung melakukan tindakan perbaikan. Dampaknya, waktu henti (<em>downtime</em>) dapat ditekan, sehingga organisasi dapat lebih fokus pada pengembangan strategi daripada sekadar menjaga operasional sistem.</p>
+                    
+                    <p>Di sisi lain, pengelolaan data juga mengalami transformasi besar. Di tengah meningkatnya volume data, pendekatan tradisional mulai ditinggalkan. Konsep <strong>data fabric</strong> hadir sebagai solusi dengan menyediakan lapisan yang mampu menghubungkan berbagai sumber data secara fleksibel. Sementara itu, <strong>data mesh</strong> menawarkan pendekatan yang lebih terdesentralisasi, di mana pengelolaan data diserahkan kepada unit yang paling memahami konteksnya. Dengan cara ini, akses terhadap informasi menjadi lebih cepat, akurat, dan merata di seluruh bagian organisasi.</p>
+                    
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Keamanan Siber dan Zero Trust Architecture</h3>
+                    <p>Aspek keamanan juga mengalami peningkatan yang signifikan. Seiring dengan semakin kompleksnya ancaman siber, banyak sistem kini mengadopsi pendekatan <em>zero trust</em>. Prinsip utamanya sederhana, yaitu tidak langsung mempercayai akses apapun tanpa proses verifikasi. Setiap aktivitas, baik dari dalam maupun luar sistem, harus melalui validasi yang ketat. Dalam hal ini, kecerdasan buatan (AI) memainkan peran penting dalam menganalisis pola perilaku pengguna dan mendeteksi anomali secara cepat, bahkan dalam hitungan milidetik.</p>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Green IT dan Keberlanjutan Lingkungan</h3>
+                    <p>Kesadaran terhadap keberlanjutan memperkuat konsep Green IT. Teknologi tidak lagi hanya dinilai dari performa, tetapi juga dari dampaknya terhadap lingkungan. Penggunaan algoritma yang lebih hemat energi, pemanfaatan pusat data berbasis energi terbarukan, serta desain perangkat keras yang mudah didaur ulang menjadi bagian dari standar baru. Dengan demikian, efisiensi tidak hanya diukur dari kecepatan sistem, tetapi juga dari seberapa kecil jejak karbon yang dihasilkan.</p>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-blue-700 dark:text-blue-300">Edge Computing dan Konektivitas Gen-Next</h3>
+                    <p>Kemajuan lain yang tidak kalah penting adalah integrasi <em>edge computing</em> dengan teknologi konektivitas ultra-cepat. Dengan latensi yang semakin rendah, proses pengolahan data dapat dilakukan langsung di dekat sumbernya, yaitu pada perangkat pengguna. Hal ini sangat krusial untuk berbagai aplikasi yang membutuhkan respons cepat, seperti kendaraan otonom, layanan medis jarak jauh, hingga sistem logistik pintar.</p>
+
+                    <p>Secara keseluruhan, tren STI di tahun 2026 menunjukkan pergeseran menuju sistem yang lebih dinamis, aman, dan berkelanjutan. Integrasi antara kecerdasan buatan, arsitektur data yang fleksibel, serta kesadaran akan dampak lingkungan menjadi faktor penting dalam menghadapi kompleksitas era digital.</p>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <h4 class="text-sm font-semibold uppercase text-slate-400 mb-2">Sumber Acuan</h4>
+                    <p class="text-xs text-slate-500">Gartner Report 2025 (Autonomous Systems & Data Fabric); IDC FutureScape 2026; Forrester Data Management Assessment.</p>
+                </div>
+            </article>
+
+            <!-- SECTION: GAYA HIDUP -->
+            <article id="section-gayahidup" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-fuchsia-600 dark:text-fuchsia-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>Artikel Fashion</span>
+                        <span>•</span>
+                        <span>Oleh Syifa Nurul</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">The Power of You: Mendobrak Batas Fashion Lewat Rasa Percaya Diri</h1>
+                    <div class="h-1 w-20 bg-fuchsia-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <p>Perkembangan dunia fashion selalu berjalan seiring dengan perubahan zaman, kemajuan teknologi, serta gaya hidup masyarakat. Memasuki tahun 2026, fashion tidak lagi dipahami hanya sebagai soal penampilan semata. Lebih dari itu, fashion kini menjadi sarana untuk menampilkan identitas diri, sekaligus mencerminkan kesadaran akan inovasi dan keberlanjutan.</p>
+                    
+                    <p>Di tahun ini, tren fashion terlihat semakin berani dan variatif. Gaya berpakaian tidak lagi dibatasi oleh aturan tertentu, melainkan lebih mengutamakan kebebasan berekspresi. Baik gaya yang sederhana, santai, maupun yang unik dan mencolok, semuanya dapat digunakan selama memberikan rasa nyaman dan percaya diri.</p>
+                    
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-fuchsia-700 dark:text-fuchsia-300">Evolusi Tren Mode Utama 2026</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <h4 class="font-bold flex items-center gap-2 mb-2 text-slate-800 dark:text-slate-200">
+                                <span class="bg-fuchsia-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span> 
+                                Gaya Y2K dan Streetwear
+                            </h4>
+                            <p class="text-sm">Salah satu tren yang kembali mencuri perhatian adalah gaya Y2K atau gaya tahun 2000-an. Gaya ini tidak hanya kembali populer, tetapi juga hadir dengan sentuhan modern yang membuatnya terasa lebih relevan. Nuansa nostalgia berpadu dengan kesan playful dan berani menjadi daya tarik utama. Ciri khasnya dapat dilihat dari penggunaan warna-warna cerah, tas berukuran kecil seperti mini bag dan shoulder bag, serta low-rise jeans yang kembali diminati.</p>      
+                            <br>    
+                            <p class="text-sm">Selain itu, gaya streetwear tetap menjadi pilihan yang banyak digemari, terutama oleh kalangan muda. Berakar dari budaya skateboarding dan hip- hop, gaya ini menawarkan tampilan yang santai namun tetap stylish. Karakter utamanya terlihat pada penggunaan oversized hoodie, cargo pants, dan sneakers yang memberikan kesan kasual sekaligus urban. Fleksibilitas gaya ini membuatnya mudah dipadukan dalam berbagai kesempatan. Gaya ini semakin diperkuat dengan munculnya tren desain grafis yang mencolok dan penggunaan logo ikonik pada pakaian.</p>
+                            <br>    
+                            <p class="text-sm">Kaos dengan grafis bergaya vintage atau cetakan pop-art seringkali menjadi statement piece saat dipadukan dengan celana denim berpotongan lebar (wide-leg jeans) yang menjadi ciri khas awal milenium. Kembalinya tren ini membuktikan bahwa mode adalah sebuah siklus; di mana keberanian berekspresi dari masa lalu tetap memiliki ruang untuk terus berevolusi di era digital saat ini.</p>                                                            
+                        </div>
+                        
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <h4 class="font-bold flex items-center gap-2 mb-2 text-slate-800 dark:text-slate-200">
+                                <span class="bg-fuchsia-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span> 
+                                High-neck Jacket
+                            </h4>
+                            <p class="text-sm">Tren berikutnya adalah kehadiran high-neck jacket yang mulai banyak dilirik. Model jaket dengan potongan leher tinggi ini diprediksi menjadi salah satu item populer di tahun 2026. Beberapa merek ternama telah merilis desain serupa, termasuk Adidas melalui koleksi edisi Chinese New Year 2026. Tidak hanya itu, merek lokal seperti The Executive juga mulai menghadirkan produk dengan konsep yang sama, menunjukkan bahwa tren ini memiliki daya tarik yang luas.</p>
+                        </div>
+
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <h4 class="font-bold flex items-center gap-2 mb-2 text-slate-800 dark:text-slate-200">
+                                <span class="bg-fuchsia-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span> 
+                                Aksesoris dan Statemen Gaya
+                            </h4>
+                            <p class="text-sm">Di sisi lain, aksesori kini memegang peranan yang semakin penting dalam menunjang penampilan. Jika sebelumnya hanya dianggap sebagai pelengkap, kini aksesori justru menjadi pusat perhatian dalam sebuah outfit. Pilihan aksesori yang unik dapat memberikan karakter tersendiri. Contohnya adalah kacamata dengan desain tidak biasa dari merek seperti Diesel dan Gentle Monster, serta aksesori dengan ukuran besar seperti kalung, gelang, atau anting yang memberikan sentuhan bohemian. Selain itu, sepatu dengan desain khas seperti tabi shoes juga semakin diminati karena mampu memberikan kesan berbeda.</p>
+                        </div>
+
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <h4 class="font-bold flex items-center gap-2 mb-2 text-slate-800 dark:text-slate-200">
+                                <span class="bg-fuchsia-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">4</span> 
+                                Pashmina Viscose
+                            </h4>
+                            <p class="text-sm">Tidak ketinggalan, tren pashmina viscose juga semakin populer. Bahan yang ringan, lembut, dan nyaman digunakan membuatnya banyak dipilih. Variasi desainnya yang beragam, mulai dari motif cetak hingga gradasi warna, memberikan kemudahan dalam memadukannya dengan berbagai gaya busana.</p>
+                        </div>
+                    </div>
+
+                    <p class="font-medium mt-6">Meskipun tren fashion terus berkembang, penting untuk diingat bahwa tidak semua tren harus diikuti. Setiap individu memiliki kebebasan untuk
+                        menentukan gaya yang paling sesuai dengan kepribadian dan kenyamanan masing-masing. Fashion seharusnya menjadi ruang untuk berekspresi, bukan tekanan untuk menyesuaikan diri dengan standar tertentu.
+                        Pada akhirnya, tren fashion 2026 menegaskan bahwa gaya berpakaian bukan sekadar mengikuti arus mode, melainkan cara untuk menunjukkan jati diri. Dengan berbagai pilihan yang tersedia, setiap orang memiliki kesempatan untuk tampil unik sesuai versinya sendiri. Fashion terbaik bukanlah yang paling mahal atau paling populer, tetapi yang paling mampu mencerminkan siapa diri kita sebenarnya.</p>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <h4 class="text-sm font-semibold uppercase text-slate-400 mb-2">Sumber Acuan</h4>
+                    <p class="text-xs text-slate-500">Vogue Business Trends 2025; WGSN Fashion Forecast; Brand Official Data 2026.</p>
+                </div>
+            </article>
+
+            <!-- SECTION: HIBURAN -->
+            <article id="section-hiburan" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-teal-600 dark:text-teal-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>Artikel Hiburan</span>
+                        <span>•</span>
+                        <span>Oleh Mutiara Gita Khaerani</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Melampaui Kebisingan Digital: Kebangkitan Slow Entertainment</h1>
+                    <div class="h-1 w-20 bg-teal-500 rounded"></div>
+                    <p class="text-slate-500 italic text-sm">Eksplorasi tren Slow Entertainment dan budaya cozy sebagai penawar lelah digital.</p>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <p>Di tengah derasnya arus informasi pada tahun 2026, gaya hidup mahasiswa mulai menunjukkan perubahan yang menarik. Ketika konten video singkat terus bermunculan dan notifikasi seakan tidak pernah berhenti, muncul sebuah tren yang justru mengajak untuk melambat, yaitu <strong>slow entertainment</strong>. Fenomena ini bukan sekadar cara baru dalam menikmati hiburan, tetapi juga mencerminkan kebutuhan akan ketenangan mental di tengah tekanan akademik yang semakin terdigitalisasi.</p>
+                    
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-teal-700 dark:text-teal-300">Redefinisi Hiburan Sebagai Medium Kontemplasi</h3>
+                    <p>Berbeda dari hiburan pada umumnya yang identik dengan rangsangan cepat seperti tawa, kejutan, atau ketegangan, <em>slow entertainment</em> menawarkan pendekatan yang lebih tenang. Mahasiswa kini mulai memilih konten yang berfungsi sebagai latar suasana, bukan sebagai pusat perhatian utama. Video 'study with me' berdurasi panjang atau siaran langsung pemandangan alam menjadi contoh konten yang semakin diminati karena mampu menciptakan suasana yang mendukung aktivitas belajar atau bekerja.</p>
+                    
+                    <p>Konsep ini juga erat kaitannya dengan <strong>budaya cozy</strong>, yang menekankan kenyamanan dan kehangatan. Elemen seperti pencahayaan lembut, suara hujan, hingga aktivitas sederhana seperti menyeduh kopi atau merajut, menjadi daya tarik tersendiri. Bagi banyak mahasiswa, suasana seperti ini membantu menjaga fokus sekaligus memberikan rasa tenang di tengah rutinitas yang padat. Konten-konten tersebut seolah menjadi 'penyeimbang' yang membantu mereka tetap stabil saat menghadapi tugas yang menuntut konsentrasi tinggi.</p>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-teal-700 dark:text-teal-300">Melawan Digital Burnout dengan kesengajaan</h3>
+                    <p>Munculnya tren ini tidak lepas dari fenomena digital burnout. Tuntutan untuk selalu terhubung dan responsif di dunia digital membuat banyak orang merasa lelah secara mental. Dalam kondisi seperti ini, slow entertainment hadir sebagai alternatif yang memberi ruang untuk beristirahat tanpa harus benar-benar meninggalkan teknologi. Mahasiswa dapat tetap produktif sambil menikmati ritme yang lebih santai dan tidak terburu-buru.</p>
+                    
+                    <p>Dari sudut pandang sosial, budaya cozy juga berfungsi sebagai ruang aman secara virtual. Ketika lingkungan sekitar terasa kompetitif dan penuh tekanan, konten bertema slow living atau siniar dengan narasi yang tenang dapat memberikan rasa nyaman dan kendali emosional. Aktivitas ini kemudian menjadi bagian dari self-care yang secara alami terintegrasi dalam kebiasaan konsumsi media sehari-hari.</p>
+                  
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-teal-700 dark:text-teal-300">Dampak pada Produktivitas dan Kreativitas</h3>
+                    <p>Menariknya, meskipun terkesan “lambat”, tren ini justru berdampak positif terhadap produktivitas. Suara latar yang konsisten dan minim gangguan membantu mahasiswa masuk ke kondisi flow, yaitu keadaan ketika seseorang dapat fokus secara mendalam pada pekerjaannya. Selain itu, kreativitas juga ikut berkembang. Banyak kreator mulai beralih dari konten yang penuh sensasi ke konten yang lebih reflektif dan bermakna, seperti video esai atau karya visual dengan nuansa puitis.</p>
+                    <p>Perubahan ini menunjukkan adanya pergeseran cara pandang terhadap hiburan. Jika sebelumnya hiburan lebih menekankan kecepatan dan sensasi, kini mulai muncul apresiasi terhadap proses, ketenangan, dan kualitas pengalaman. Mahasiswa tidak lagi hanya mencari sesuatu yang menarik secara instan, tetapi juga sesuatu yang mampu memberikan dampak emosional yang lebih dalam.</p>
+                    <p>Pada akhirnya, tren <strong>slow entertainment</strong> dan <strong>budaya cozy</strong> menunjukkan bahwa teknologi tidak selalu harus menjadi sumber distraksi. Dengan penggunaan yang lebih bijak, teknologi justru dapat menjadi sarana untuk menjaga keseimbangan hidup. Di tengah dunia yang terus bergerak cepat, kemampuan untuk melambat dan menikmati momen sederhana menjadi hal yang semakin penting—bukan hanya sebagai pilihan, tetapi sebagai kebutuhan.</p>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <h4 class="text-sm font-semibold uppercase text-slate-400 mb-2">Sumber Acuan</h4>
+                    <p class="text-xs text-slate-500">YouTube Trends Report; Hootsuite Digital 2025; Psychology Today: The Rise of Cozy Content.</p>
+                </div>
+            </article>
+
+            <!-- SECTION: KULINER -->
+            <article id="section-kuliner" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-orange-600 dark:text-orange-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>Artikel Kuliner</span>
+                        <span>•</span>
+                        <span>Oleh AISYAH WULANDHARI</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Seni Menikmati Rasa: Tren Kuliner Sehat dan Interaktif 2026</h1>
+                    <div class="h-1 w-20 bg-orange-500 rounded"></div>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <p>Memasuki pertengahan tahun 2026, makanan bukan lagi sekadar pemuas lapar, melainkan sebuah petualangan indera yang mendalam. Kesadaran masyarakat kelas pekerja dan mahasiswa terhadap kesehatan fisik memicu revolusi besar dalam cara kita mengonsumsi makanan. Kombinasi nutrisi fungsional dan pengalaman bersantap yang interaktif menjadi pilar utama tren kuliner saat ini.</p>
+                    
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-orange-700 dark:text-orange-300">Nutrisi Fungsional dan Makanan Pintar</h3>
+                    <p>Tren nutrisi fungsional kini mendominasi menu harian. Konsumen mencari makanan yang diperkaya dengan adaptogen, probiotik hidup, dan senyawa <em>superfood</em> yang dapat meningkatkan fokus kognitif serta mereduksi stres. Pilihan sarapan praktis seperti oatmeal dalam toples yang dipadukan dengan buah beri segar, biji-bijian, dan susu nabati bukan lagi sekadar gaya hidup estetis di media sosial, melainkan kebutuhan pemenuhan energi berkelanjutan untuk menghadapi jadwal yang padat.</p>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-orange-700 dark:text-orange-300">Pengalaman Makan Interaktif</h3>
+                    <p>Restoran dan kafe kini mengadopsi konsep teknologi dalam menyajikan makanan. Mulai dari pemesanan berbasis augmentasi realitas (AR) di mana konsumen dapat melihat visualisasi gizi makanan sebelum dimasak, hingga konsep 'DIY dining' yang sehat di mana konsumen meracik komposisi kalori mereka sendiri dengan panduan aplikasi cerdas. Makanan kini menjadi medium komunikasi, rekreasi, sekaligus investasi kesehatan jangka panjang.</p>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <h4 class="text-sm font-semibold uppercase text-slate-400 mb-2">Sumber Acuan</h4>
+                    <p class="text-xs text-slate-500">Food Navigator Trends 2026; WHO Healthy Diet Guidelines 2025.</p>
+                </div>
+            </article>
+
+            <!-- SECTION: FEATURE KAMPUS -->
+            <article id="section-feature" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-rose-600 dark:text-rose-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>Feature Utama</span>
+                        <span>•</span>
+                        <span>Oleh Nabilla Artamelia</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Kehidupan Kampus: Deadline, Nongkrong, dan Dinamika Organisasi</h1>
+                    <div class="h-1 w-20 bg-rose-500 rounded"></div>
+                    <p class="text-slate-500 italic text-sm">Potret dinamika mahasiswa di antara ambisi akademik, tekanan deadline, dan kehangatan persahabatan organisasi.</p>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6 font-serif text-lg leading-relaxed">
+                    <p class="first-letter:text-5xl first-letter:font-bold first-letter:text-rose-600 first-letter:float-left first-letter:mr-3 first-letter:font-display">Koridor kampus selalu menjadi saksi bisu dari jutaan ambisi yang berkejaran dengan waktu. Kehidupan mahasiswa di tahun 2026 diwarnai oleh dualitas yang kontradiktif namun harmonis: tuntutan akademik digital yang serba cepat dan pencarian ruang hangat untuk bersosialisasi secara nyata. Di antara layar laptop yang menyala hingga larut malam dan cangkir kopi yang mendingin, esensi tumbuh dewasa sedang dibentuk.</p>
+                    
+                    <h3 class="text-2xl font-bold font-display mt-8 mb-4">Romantika Deadline dan Meja Kafe</h3>
+                    <p>Tekanan tugas akhir dan tenggat waktu (<em>deadline</em>) sistem manajemen pembelajaran terintegrasi memaksa mahasiswa adaptif mengelola waktu. Aktivitas 'nongkrong' bergeser dari sekadar membuang waktu menjadi sesi kolaborasi atau coworking. Di sudut-sudut kafe sekitar kampus, mahasiswa berkumpul bertukar ide, mengerjakan proyek kelompok, atau sekadar saling menguatkan di tengah kepungan tugas perkuliahan. Kehangatan persahabatan di sela-sela kesibukan ini menjadi tribut terbaik bagi masa-masa indah perkuliahan.</p>
+
+                    <h3 class="text-2xl font-bold font-display mt-8 mb-4">Studi Kasus: Dinamika Organisasi Mahasiswa</h3>
+                    <p>Kegiatan organisasi mahasiswa saat ini menghadapi tantangan relevansi yang besar. Agar tetap diminati, organisasi dituntut mengadopsi sistem manajemen modern yang transparan dan berbasis platform digital untuk efisiensi koordinasi. Konflik internal, pembagian komitmen antara kuliah dan program kerja, serta pencarian pendanaan menjadi dinamika yang mendewasakan karakter kepemimpinan anggota organisasi. Mahasiswa yang aktif berorganisasi terbukti memiliki kesiapan kerja yang lebih matang karena terbiasa menyelesaikan masalah interpersonal di dunia nyata.</p>
+
+                    <blockquote class="border-l-4 border-rose-500 pl-4 py-2 italic my-6 bg-rose-50/30 dark:bg-slate-800/30 text-slate-800 dark:text-slate-200">
+                        "Organisasi mengajarkan kita hal-hal yang tidak tertulis di diktat kuliah: empati, negosiasi, dan cara bangkit setelah kegagalan proyek."
+                    </blockquote>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <h4 class="text-sm font-semibold uppercase text-slate-400 mb-2">Sumber Acuan</h4>
+                    <p class="text-xs text-slate-500">Studi Internal Dinamika Mahasiswa 2025; Survey Kesiapan Kerja Dikti 2026.</p>
+                </div>
+            </article>
+
+            <!-- SECTION: RUBRIK AI -->
+            <article id="section-rubrik" class="magazine-section hidden space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-cyan-600 dark:text-cyan-400 font-semibold tracking-wider text-xs uppercase">
+                        <span>Rubrik Digital</span>
+                        <span>•</span>
+                        <span>Oleh Addini Yasyfa Salimah</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold font-display leading-tight">Cakrawala AI & Machine Learning</h1>
+                    <div class="h-1 w-20 bg-cyan-500 rounded"></div>
+                    <p class="text-slate-500 italic text-sm">Mengenal algoritma yang membentuk dunia dan pemahaman mendalam literasi digital.</p>
+                </div>
+
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 space-y-6">
+                    <p>Kecerdasan Buatan (Artificial Intelligence) bukan lagi sebuah visi masa depan; ia adalah motor penggerak peradaban hari ini. Machine Learning (ML), sebagai cabang utama AI, diam-diam bekerja di balik layar gawai kita, menyaring informasi, memprediksi kebutuhan, dan menyusun realitas digital yang kita konsumsi setiap detik. Memahami cara kerja algoritma ini adalah langkah awal menuju literasi digital yang cerdas dan berdaya.</p>
+                    
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-cyan-700 dark:text-cyan-300">Bagaimana Algoritma Membentuk Dunia Kita?</h3>
+                    <p>Dari lini masa media sosial hingga penentuan rute peta digital, algoritma ML belajar dari setiap klik, guliran layar, dan pilihan kita. Melalui proses pengenalan pola data (<em>pattern recognition</em>), sistem menciptakan rekomendasi personal yang sangat akurat. Namun, di balik kenyamanan ini, terdapat tanggung jawab besar bagi pengguna untuk memahami potensi bias algoritma dan pentingnya menjaga privasi data pribadi dari eksploitasi komersial berlebih.</p>
+
+                    <h3 class="text-xl font-bold font-display mt-8 mb-4 text-cyan-700 dark:text-cyan-300">AI sebagai Mitra Produktivitas, Bukan Pengganti Manusia</h3>
+                    <p>Rubrik ini hadir untuk menegaskan bahwa ketakutan akan AI menggantikan peran manusia dapat dikikis dengan menggeser paradigma kita: jadikan AI sebagai mitra kolaborasi (<em>collaborative partner</em>). Mahasiswa dan profesional yang melengkapi diri dengan keahlian rekayasa perintah (<em>prompt engineering</em>) dan analisis hasil AI akan memimpin produktivitas di masa depan. Kunci literasi digital masa kini adalah mempertahankan kemampuan berpikir kritis (<em>critical thinking</em>) manusiawi yang tidak dimiliki oleh baris kode manapun.</p>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <h4 class="text-sm font-semibold uppercase text-slate-400 mb-2">Sumber Acuan</h4>
+                    <p class="text-xs text-slate-500">MIT Technology Review; IEEE Spectrum AI Handbook 2025.</p>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- BOOKMARKS MODAL -->
+    <div id="bookmarks-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl p-6 shadow-xl border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold flex items-center gap-2">
+                    <i data-lucide="bookmark" class="w-5 h-5 text-primary-600"></i> Artikel Tersimpan
+                </h3>
+                <button onclick="toggleBookmarksModal()" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="bookmarks-list" class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                <p class="text-sm text-slate-400 dark:text-slate-500 italic text-center py-4">Belum ada artikel yang disimpan.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE SIDEBAR MODAL -->
+    <div id="mobile-sidebar" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex justify-end">
+        <div class="bg-white dark:bg-slate-900 w-80 h-full p-6 shadow-2xl flex flex-col justify-between border-l border-slate-200 dark:border-slate-800">
+            <div>
+                <div class="flex items-center justify-between mb-8">
+                    <span class="text-lg font-bold font-display text-primary-600">Navigasi Majalah</span>
+                    <button onclick="toggleSidebar()" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                <!-- Mobile Search -->
+                <div class="relative mb-6">
+                    <input type="text" id="mobile-search-input" placeholder="Cari artikel..." 
+                           class="w-full pl-9 pr-4 py-2 text-sm bg-slate-100 dark:bg-slate-800 border-none rounded-full focus:ring-2 focus:ring-primary-600 outline-none"
+                           oninput="handleMobileSearch()">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+                </div>
+                <!-- Menu -->
+                <div class="space-y-6 overflow-y-auto max-h-[60vh] pr-2">
+                    <div>
+                        <h4 class="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-2">Pembuka</h4>
+                        <button onclick="switchSection('editorial'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                            <i data-lucide="quote" class="w-4 h-4 text-slate-400"></i><span>Editorial Pandangan</span>
+                        </button>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-2">Artikel Utama</h4>
+                        <div class="space-y-1">
+                            <button onclick="switchSection('tekno'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="cpu" class="w-4 h-4 text-slate-400"></i><span>Arsitektur Masa Depan</span>
+                            </button>
+                            <button onclick="switchSection('gayahidup'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="sparkles" class="w-4 h-4 text-slate-400"></i><span>The Power of You</span>
+                            </button>
+                            <button onclick="switchSection('hiburan'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="coffee" class="w-4 h-4 text-slate-400"></i><span>Melampaui Kebisingan</span>
+                            </button>
+                            <button onclick="switchSection('kuliner'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="utensils" class="w-4 h-4 text-slate-400"></i><span>Seni Menikmati Rasa</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-2">Feature & Rubrik</h4>
+                        <div class="space-y-1">
+                            <button onclick="switchSection('feature'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="graduation-cap" class="w-4 h-4 text-slate-400"></i><span>Kehidupan Kampus</span>
+                            </button>
+                            <button onclick="switchSection('rubrik'); toggleSidebar();" class="flex items-center space-x-3 w-full text-left py-2 text-sm text-slate-700 dark:text-slate-300">
+                                <i data-lucide="bot" class="w-4 h-4 text-slate-400"></i><span>Cakrawala AI & ML</span>
+                            </button>
+                        </div>
+                    </div>
+                    <a href="index.html" class="nav-btn flex items-center justify-center w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        <span>Homepage</span>
+                    </a>
+                </div>
+            </div>
+            <div class="pt-4 border-t border-slate-200 dark:border-slate-800 text-center text-[10px] text-slate-400">
+                &copy; 2026 Synthetic Pulse Magazine • Semua hak dilindungi.
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOKMARK ADD TRIGGER (Floating Action) -->
+    <button onclick="toggleSaveCurrentSection()" id="btn-save-floating" class="fixed bottom-6 right-6 p-4 bg-gradient-to-br from-primary-600 to-accent-500 text-white rounded-full shadow-lg shadow-primary-500/30 hover:scale-105 active:scale-95 transition-all z-30" title="Simpan Artikel Ini">
+        <i data-lucide="bookmark-plus" class="w-6 h-6"></i>
+    </button>
+
+    <!-- FOOTER -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-6 mt-12 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:flex sm:items-center sm:justify-between text-xs text-slate-400 dark:text-slate-500">
+            <span>&copy; 2026 SYNTHETIC PULSE Magazine.</span>
+            <span class="mt-2 sm:mt-0 block">Techno. Build. Play. • Edisi 1 (April 2026)</span>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPTING -->
+    <script>
+        // DOM Init & Lucide Icons loading
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            updateProgressBar();
+            loadBookmarks();
+            
+            // Listen to scroll events to handle progress bar
+            window.addEventListener('scroll', updateProgressBar);
+        });
+
+        // Dark Mode Logic
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            updateThemeIcon(true);
+        } else {
+            document.documentElement.classList.remove('dark');
+            updateThemeIcon(false);
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('theme-icon');
+            if (isDark) {
+                icon.setAttribute('data-lucide', 'sun');
+            } else {
+                icon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+
+        // Section Navigation Logic
+        let currentSection = 'editorial';
+        const sectionMapping = {
+            'editorial': { id: 'section-editorial', title: 'Editorial Pandangan' },
+            'tekno': { id: 'section-tekno', title: 'Arsitektur Masa Depan' },
+            'gayahidup': { id: 'section-gayahidup', title: 'The Power of You' },
+            'hiburan': { id: 'section-hiburan', title: 'Melampaui Kebisingan Digital' },
+            'kuliner': { id: 'section-kuliner', title: 'Seni Menikmati Rasa' },
+            'feature': { id: 'section-feature', title: 'Feature: Kehidupan Kampus' },
+            'rubrik': { id: 'section-rubrik', title: 'Cakrawala AI & Machine Learning' }
+        };
+
+        function switchSection(targetSection) {
+            if (!sectionMapping[targetSection]) return;
+
+            // Hide all sections
+            document.querySelectorAll('.magazine-section').forEach(sec => {
+                sec.classList.add('hidden');
+            });
+
+            // Show target section
+            document.getElementById(sectionMapping[targetSection].id).classList.remove('hidden');
+
+            // Update active state in sidebar nav-btns (desktop)
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-primary-100', 'dark:bg-primary-900/30', 'text-primary-700', 'dark:text-primary-300');
+                btn.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+            });
+
+            const activeBtn = document.getElementById(`btn-${targetSection}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+                activeBtn.classList.add('bg-primary-100', 'dark:bg-primary-900/30', 'text-primary-700', 'dark:text-primary-300');
+            }
+
+            currentSection = targetSection;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(updateProgressBar, 300);
+
+            // Update Floating Save Icon status
+            updateFloatingSaveButton();
+        }
+
+        // Reading Progress Bar
+        function updateProgressBar() {
+            const currentSecEl = document.getElementById(sectionMapping[currentSection].id);
+            if (!currentSecEl) return;
+
+            const rect = currentSecEl.getBoundingClientRect();
+            const elementHeight = currentSecEl.scrollHeight;
+            const windowHeight = window.innerHeight;
+
+            // Calculate percentage read inside current visible section area
+            let percentage = 0;
+            if (rect.top < windowHeight) {
+                const scrolledIntoElement = windowHeight - rect.top;
+                percentage = Math.min((scrolledIntoElement / elementHeight) * 100, 100);
+            }
+            if (rect.bottom <= windowHeight) {
+                percentage = 100;
+            }
+            if (rect.top > windowHeight) {
+                percentage = 0;
+            }
+
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        // Mobile Sidebar Drawer
+        function toggleSidebar() {
+            const drawer = document.getElementById('mobile-sidebar');
+            drawer.classList.toggle('hidden');
+        }
+
+        // Search engine within active HTML content (In-Memory Search)
+        function handleSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const resultsContainer = document.getElementById('search-results-container');
+            const resultsDiv = document.getElementById('search-results');
+
+            if (query.length < 3) {
+                resultsContainer.classList.add('hidden');
+                return;
+            }
+
+            resultsDiv.innerHTML = '';
+            let count = 0;
+
+            for (const [key, section] of Object.entries(sectionMapping)) {
+                const element = document.getElementById(section.id);
+                const text = element.innerText.toLowerCase();
+
+                if (text.includes(query)) {
+                    count++;
+                    const previewText = element.innerText.replace(/\n/g, ' ').substring(0, 120) + '...';
+                    
+                    const item = document.createElement('div');
+                    item.className = 'p-3 bg-white dark:bg-slate-900 rounded-lg shadow-sm cursor-pointer hover:border-primary-500 border border-transparent transition-all';
+                    item.onclick = () => {
+                        switchSection(key);
+                        clearSearch();
+                    };
+                    item.innerHTML = `
+                        <h4 class="text-sm font-semibold text-slate-800 dark:text-slate-100">${section.title}</h4>
+                        <p class="text-xs text-slate-400 mt-1">${previewText}</p>
+                    `;
+                    resultsDiv.appendChild(item);
+                }
+            }
+
+            if (count > 0) {
+                resultsContainer.classList.remove('hidden');
+            } else {
+                resultsDiv.innerHTML = '<p class="text-xs text-slate-400 italic">Tidak ditemukan artikel yang sesuai.</p>';
+                resultsContainer.classList.remove('hidden');
+            }
+        }
+
+        function handleMobileSearch() {
+            const query = document.getElementById('mobile-search-input').value;
+            document.getElementById('search-input').value = query;
+            handleSearch();
+        }
+
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('mobile-search-input').value = '';
+            document.getElementById('search-results-container').classList.add('hidden');
+        }
+
+        // Bookmarks system logic via localStorage
+        let savedArticles = [];
+
+        function loadBookmarks() {
+            const saved = localStorage.getItem('syntheticpulse_bookmarks');
+            if (saved) {
+                savedArticles = JSON.parse(saved);
+            }
+            updateBookmarkBadge();
+            updateFloatingSaveButton();
+        }
+
+        function toggleBookmarksModal() {
+            const modal = document.getElementById('bookmarks-modal');
+            modal.classList.toggle('hidden');
+            renderBookmarksList();
+        }
+
+        function toggleSaveCurrentSection() {
+            const index = savedArticles.indexOf(currentSection);
+            if (index > -1) {
+                savedArticles.splice(index, 1);
+            } else {
+                savedArticles.push(currentSection);
+            }
+            localStorage.setItem('syntheticpulse_bookmarks', JSON.stringify(savedArticles));
+            updateBookmarkBadge();
+            updateFloatingSaveButton();
+            renderBookmarksList();
+        }
+
+        function toggleSaveCurrentSectionFromID(id) {
+            const index = savedArticles.indexOf(id);
+            if (index > -1) {
+                savedArticles.splice(index, 1);
+            } else {
+                savedArticles.push(id);
+            }
+            localStorage.setItem('syntheticpulse_bookmarks', JSON.stringify(savedArticles));
+            updateBookmarkBadge();
+            updateFloatingSaveButton();
+            renderBookmarksList();
+        }
+
+        function updateBookmarkBadge() {
+            const countEl = document.getElementById('bookmark-count');
+            countEl.innerText = savedArticles.length;
+            if (savedArticles.length > 0) {
+                countEl.classList.remove('hidden');
+            } else {
+                countEl.classList.add('hidden');
+            }
+        }
+
+        function updateFloatingSaveButton() {
+            const btn = document.getElementById('btn-save-floating');
+            if (savedArticles.includes(currentSection)) {
+                btn.innerHTML = '<i data-lucide="bookmark-check" class="w-6 h-6"></i>';
+                btn.classList.remove('from-primary-600', 'to-accent-500');
+                btn.classList.add('bg-emerald-600', 'dark:bg-emerald-500');
+            } else {
+                btn.innerHTML = '<i data-lucide="bookmark-plus" class="w-6 h-6"></i>';
+                btn.classList.remove('bg-emerald-600', 'dark:bg-emerald-500');
+                btn.classList.add('from-primary-600', 'to-accent-500');
+            }
+            lucide.createIcons();
+        }
+
+        function renderBookmarksList() {
+            const listContainer = document.getElementById('bookmarks-list');
+            listContainer.innerHTML = '';
+
+            if (savedArticles.length === 0) {
+                listContainer.innerHTML = '<p class="text-sm text-slate-400 dark:text-slate-500 italic text-center py-4">Belum ada artikel yang disimpan.</p>';
+                return;
+            }
+
+            savedArticles.forEach(key => {
+                const item = document.createElement('div');
+                item.className = 'p-3 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-between gap-4 border border-slate-100 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-800 transition-all';
+                item.innerHTML = `
+                    <div class="cursor-pointer flex-1 min-w-0" onclick="switchSection('${key}'); toggleBookmarksModal();">
+                        <h4 class="text-sm font-semibold truncate text-slate-800 dark:text-slate-100">${sectionMapping[key].title}</h4>
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Klik untuk membaca</span>
+                    </div>
+                    <button onclick="toggleSaveCurrentSectionFromID('${key}')" class="text-red-500 hover:text-red-700 shrink-0">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                `;
+                listContainer.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
